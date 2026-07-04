@@ -11,11 +11,37 @@ const SOURCE_COLORS = { Grid: "#2563eb", Solar: "#f59e0b", Generator: "#8b5cf6" 
 const PERIODS = ["daily", "weekly", "monthly", "quarterly", "yearly"];
 
 function PowerSourceBadge({ source }) {
-  const icons = { Grid: "⚡", Solar: "☀️", Generator: "🔧" };
   const colors = { Grid: "bg-blue-50 text-blue-700", Solar: "bg-yellow-50 text-yellow-700", Generator: "bg-purple-50 text-purple-700" };
+  
+  const getSourceIcon = (src) => {
+    const css = "w-3 h-3 text-current";
+    if (src === "Grid") {
+      return (
+        <svg className={css} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      );
+    } else if (src === "Solar") {
+      return (
+        <svg className={css} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </svg>
+      );
+    } else if (src === "Generator") {
+      return (
+        <svg className={css} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      );
+    }
+    return null;
+  };
+
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold ${colors[source] || "bg-gray-50 text-gray-600"}`}>
-      {icons[source] || "??"} {source}
+    <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs font-semibold ${colors[source] || "bg-gray-50 text-gray-600"}`}>
+      {getSourceIcon(source)}
+      <span>{source}</span>
     </span>
   );
 }

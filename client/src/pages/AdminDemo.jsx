@@ -5,13 +5,83 @@ import { useAuth } from "../context/AuthContext";
 const SITES = ["LSK-001", "LSK-002", "LSK-003", "LSK-004", "LSK-005"];
 
 const SCENARIOS = [
-  { key: "grid_outage",   label: "Grid Outage",        icon: "⚡", desc: "Cuts grid power, triggers generator failover", color: "red"    },
-  { key: "grid_restore",  label: "Grid Restored",       icon: "✅", desc: "Restores grid power, deactivates generator",  color: "green"  },
-  { key: "low_fuel",      label: "Low Fuel Alert",      icon: "🛢", desc: "Sets diesel level to 8% (critical)",         color: "orange" },
-  { key: "fuel_theft",    label: "Fuel Theft",          icon: "🚨", desc: "Simulates sudden diesel level drop + anomaly flag", color: "red" },
-  { key: "high_temp",     label: "High Temperature",    icon: "🌡", desc: "Sets temp to 52°C + smoke alert",            color: "red"    },
-  { key: "intrusion",     label: "Security Intrusion",  icon: "🔒", desc: "Triggers intrusion alert + door open event", color: "purple" },
-  { key: "refuel",        label: "Refuel",              icon: "⛽", desc: "Sets diesel to 92%",                        color: "blue"   },
+  {
+    key: "grid_outage",
+    label: "Grid Outage",
+    icon: (
+      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    ),
+    desc: "Cuts grid power, triggers generator failover",
+    color: "red",
+  },
+  {
+    key: "grid_restore",
+    label: "Grid Restored",
+    icon: (
+      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    desc: "Restores grid power, deactivates generator",
+    color: "green",
+  },
+  {
+    key: "low_fuel",
+    label: "Low Fuel Alert",
+    icon: (
+      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2" />
+      </svg>
+    ),
+    desc: "Sets diesel level to 8% (critical)",
+    color: "orange",
+  },
+  {
+    key: "fuel_theft",
+    label: "Fuel Theft",
+    icon: (
+      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+    ),
+    desc: "Simulates sudden diesel level drop + anomaly flag",
+    color: "red",
+  },
+  {
+    key: "high_temp",
+    label: "High Temperature",
+    icon: (
+      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 3v10.158a4 4 0 106 0V3a3 3 0 10-6 0z" />
+      </svg>
+    ),
+    desc: "Sets temp to 52°C + smoke alert",
+    color: "red",
+  },
+  {
+    key: "intrusion",
+    label: "Security Intrusion",
+    icon: (
+      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+      </svg>
+    ),
+    desc: "Triggers intrusion alert + door open event",
+    color: "purple",
+  },
+  {
+    key: "refuel",
+    label: "Refuel",
+    icon: (
+      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2" />
+      </svg>
+    ),
+    desc: "Sets diesel to 92%",
+    color: "blue",
+  },
 ];
 
 const METRICS = [
@@ -52,10 +122,10 @@ export default function AdminDemo() {
         metric: metric.metric,
         value: parseFloat(value),
       });
-      addLog(`✅ Injected ${metric.metric}=${value} → ${selectedSite}`);
+      addLog(`Success: Injected ${metric.metric}=${value} → ${selectedSite}`);
       setValue("");
     } catch (err) {
-      addLog(`❌ ${err.message}`, "error");
+      addLog(`Error: ${err.message}`, "error");
     } finally {
       setInjectLoading(false);
     }
@@ -65,9 +135,9 @@ export default function AdminDemo() {
     setScenarioLoading(scenario.key);
     try {
       await api.triggerScenario({ scenario: scenario.key, site_id: selectedSite });
-      addLog(`🎬 Scenario "${scenario.label}" triggered on ${selectedSite}`);
+      addLog(`Scenario: "${scenario.label}" triggered on ${selectedSite}`);
     } catch (err) {
-      addLog(`❌ ${err.message}`, "error");
+      addLog(`Error: ${err.message}`, "error");
     } finally {
       setScenarioLoading(null);
     }
@@ -90,9 +160,11 @@ export default function AdminDemo() {
 
       {/* Warning */}
       <div className="card border-amber-200 bg-amber-50 p-4 flex gap-3">
-        <span className="text-lg">⚠️</span>
+        <svg className="w-5 h-5 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
         <p className="text-xs text-amber-700">
-          This panel publishes directly to MQTT. All injected readings flow through the normal pipeline — they will be persisted, trigger alerts, and appear on all dashboards.
+          This panel submits readings directly to the API. All injected readings flow through the normal pipeline — they will be persisted, trigger alerts, and appear on all dashboards.
         </p>
       </div>
 

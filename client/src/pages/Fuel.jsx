@@ -152,7 +152,12 @@ export default function Fuel() {
                     </td>
                     <td>
                       {urgent ? (
-                        <span className="badge badge-critical">⚠️ Overdue</span>
+                        <span className="badge badge-critical flex items-center">
+                          <svg className="w-3 h-3 text-red-700 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                          </svg>
+                          Overdue
+                        </span>
                       ) : warn ? (
                         <span className="badge badge-high">Service Soon</span>
                       ) : (
@@ -223,7 +228,9 @@ export default function Fuel() {
           ) : (
             theftAlerts.map((a) => (
               <div key={a.id} className="px-4 py-3 flex items-start gap-3">
-                <span className="text-base">🚨</span>
+                <svg className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
                 <div className="flex-1">
                   <p className="text-xs font-semibold text-gray-800">{a.site_id}</p>
                   <p className="text-xs text-gray-500">{a.message}</p>

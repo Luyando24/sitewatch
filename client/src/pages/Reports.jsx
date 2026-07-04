@@ -229,14 +229,20 @@ export default function Reports() {
       {activeTab === "predictive" && (
         <div className="space-y-3">
           {predictive.length === 0 ? (
-            <div className="card p-12 text-center text-sm text-gray-400">
-              <p className="text-2xl mb-3">✅</p>
+            <div className="card p-12 text-center text-sm text-gray-400 flex flex-col items-center justify-center">
+              <svg className="w-10 h-10 text-emerald-500 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
               All generators within safe service thresholds
             </div>
           ) : (
             predictive.map((p) => (
               <div key={p.site_id} className={`card p-4 flex items-start gap-4 ${p.urgent ? "border-red-200 bg-red-50" : "border-amber-200 bg-amber-50"}`}>
-                <span className="text-2xl">{p.urgent ? "🔴" : "🟡"}</span>
+                <div className={`p-2 rounded-xl flex-shrink-0 ${p.urgent ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-600"}`}>
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-sm font-semibold text-gray-900">{p.site_name} — {p.site_id}</h3>

@@ -3,32 +3,56 @@ import { Link } from "react-router-dom";
 
 const FEATURES = [
   {
-    icon: "📡",
+    icon: (
+      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
+      </svg>
+    ),
     title: "Infrastructure Intelligence",
     desc: "Centralized site-by-site status monitoring. Track real-time uptime indicators and generate exportable SLA compliance reports.",
   },
   {
-    icon: "⚡",
+    icon: (
+      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    ),
     title: "Smart Power Switchboard",
     desc: "Visual switching timelines and source breakdown charts tracking Grid, Solar, and Generator runtimes automatically.",
   },
   {
-    icon: "🛢️",
+    icon: (
+      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+      </svg>
+    ),
     title: "Fuel & Gen Assurance",
     desc: "Threshold-triggered low fuel warnings combined with rate-of-consumption anomaly detection to catch fuel theft instantly.",
   },
   {
-    icon: "🔒",
+    icon: (
+      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+      </svg>
+    ),
     title: "Active Security Log",
     desc: "Intrusion and motion event logs with timestamps, CCTV camera tile previews, and real-time operator alarm acknowledgment.",
   },
   {
-    icon: "🌡️",
+    icon: (
+      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 3v10.158a4 4 0 106 0V3a3 3 0 10-6 0z" />
+      </svg>
+    ),
     title: "Telemetry & Environment",
     desc: "Live charts for temperature and humidity, door contact state logs, smoke/fire indicators, and equipment health alerts.",
   },
   {
-    icon: "📈",
+    icon: (
+      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
     title: "Commercial Tenancy",
     desc: "Track client equipment load per site, calculate capacity-to-tenancy ratios, and automatically flag revenue opportunities.",
   },
@@ -252,9 +276,31 @@ export default function Landing() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
                   <span className="text-xs text-slate-400 font-semibold uppercase">Power Source</span>
-                  <p className="text-sm font-bold text-slate-800 mt-1">
-                    {powerSource === "Grid" ? "🔌 Grid Power" : powerSource === "Solar" ? "☀️ Solar array" : "⚙️ Generator"}
-                  </p>
+                  <div className="text-sm font-bold text-slate-800 mt-1 flex items-center gap-1">
+                    {powerSource === "Grid" ? (
+                      <>
+                        <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Grid Power
+                      </>
+                    ) : powerSource === "Solar" ? (
+                      <>
+                        <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                        </svg>
+                        Solar array
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Generator
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
                   <span className="text-xs text-slate-400 font-semibold uppercase">Diesel Level</span>
@@ -270,7 +316,12 @@ export default function Landing() {
                 </div>
                 <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
                   <span className="text-xs text-slate-400 font-semibold uppercase">Door Status</span>
-                  <p className="text-sm font-bold text-slate-800 mt-1">🔒 Closed</p>
+                  <div className="text-sm font-bold text-slate-800 mt-1 flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    Closed
+                  </div>
                 </div>
               </div>
 
@@ -279,7 +330,9 @@ export default function Landing() {
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Switchboard Timeline Event</h4>
                 <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs">⚡</span>
+                    <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
                     <span className="text-xs font-semibold text-slate-700">Power switched to {powerSource}</span>
                   </div>
                   <span className="text-[10px] text-slate-400 font-mono">Just Now</span>

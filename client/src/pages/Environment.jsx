@@ -126,14 +126,35 @@ export default function Environment() {
           {smoke > 40 && <span className="badge badge-critical mt-1.5">Fire Alert</span>}
         </div>
 
-        <SensorStatus label="Door Sensor" value={doorOpen ? "OPEN" : "Closed"} active={doorOpen} icon="🚪" />
-        <SensorStatus label="Motion Sensor" value={motion ? "DETECTED" : "Clear"} active={motion} icon="👁" />
+        <SensorStatus 
+          label="Door Sensor" 
+          value={doorOpen ? "OPEN" : "Closed"} 
+          active={doorOpen} 
+          icon={
+            <svg className="w-5 h-5 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
+            </svg>
+          } 
+        />
+        <SensorStatus 
+          label="Motion Sensor" 
+          value={motion ? "DETECTED" : "Clear"} 
+          active={motion} 
+          icon={
+            <svg className="w-5 h-5 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          } 
+        />
       </div>
 
       {/* Equipment fault banner */}
       {fault && (
         <div className="card border-amber-300 bg-amber-50 p-4 flex items-center gap-3">
-          <span className="text-xl">⚠️</span>
+          <svg className="w-5 h-5 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
           <div>
             <p className="text-sm font-semibold text-amber-800">Equipment Fault Reported</p>
             <p className="text-xs text-amber-600 mt-0.5">Site {selectedSite} — equipment reporting fault condition. Inspection recommended.</p>
