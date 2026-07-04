@@ -18,6 +18,19 @@ function rand(min, max) {
 async function seed() {
   console.log("🌱 Seeding demo data...");
 
+  // ── Update/Seed site names & coords for Zambia ───────────────────────────
+  const sitesInfo = [
+    { id: "LSK-001", name: "Lusaka Central", latitude: -15.4167, longitude: 28.2833 },
+    { id: "LSK-002", name: "Kalingalinga Hub", latitude: -15.4180, longitude: 28.3200 },
+    { id: "LSK-003", name: "Kabulonga Heights", latitude: -15.4160, longitude: 28.3500 },
+    { id: "LSK-004", name: "Matero East Grid", latitude: -15.3800, longitude: 28.2500 },
+    { id: "LSK-005", name: "Chilungululu Relay", latitude: -15.4500, longitude: 28.3000 }
+  ];
+  for (const s of sitesInfo) {
+    await db.from("sites").update({ name: s.name, latitude: s.latitude, longitude: s.longitude }).eq("id", s.id);
+  }
+  console.log("  ✅ Updated site names & coordinates for Zambia (Lusaka)");
+
   // ── Clear old readings/alerts for clean demo ─────────────────────────────
   await db.from("readings").delete().neq("id", 0);
   await db.from("alerts").delete().neq("id", 0);

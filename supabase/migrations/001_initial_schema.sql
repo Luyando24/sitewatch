@@ -65,11 +65,11 @@ CREATE TABLE IF NOT EXISTS sla_targets (
 
 -- ─── Seed Sites ──────────────────────────────────────────────────────────────
 INSERT INTO sites (id, name, latitude, longitude, tower_type, capacity, status) VALUES
-  ('LSK-001', 'Nairobi Central', -1.2921, 36.8219, 'macro', 6, 'up'),
-  ('LSK-002', 'Westlands Hub',   -1.2684, 36.8062, 'micro', 4, 'degraded'),
-  ('LSK-003', 'Karen Heights',   -1.3209, 36.7136, 'macro', 5, 'up'),
-  ('LSK-004', 'Eastlands Grid',  -1.2833, 36.8667, 'macro', 4, 'up'),
-  ('LSK-005', 'Thika Road Relay',-1.1000, 36.9200, 'macro', 6, 'down')
+  ('LSK-001', 'Lusaka Central', -15.4167, 28.2833, 'macro', 6, 'up'),
+  ('LSK-002', 'Kalingalinga Hub', -15.4180, 28.3200, 'micro', 4, 'degraded'),
+  ('LSK-003', 'Kabulonga Heights', -15.4160, 28.3500, 'macro', 5, 'up'),
+  ('LSK-004', 'Matero East Grid', -15.3800, 28.2500, 'macro', 4, 'up'),
+  ('LSK-005', 'Chilungululu Relay', -15.4500, 28.3000, 'macro', 6, 'down')
 ON CONFLICT (id) DO NOTHING;
 
 -- ─── Seed SLA Targets ────────────────────────────────────────────────────────

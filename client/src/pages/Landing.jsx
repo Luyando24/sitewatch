@@ -187,10 +187,10 @@ export default function Landing() {
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Select Site Preset</h3>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { id: "LSK-001", label: "Nairobi Central", status: "Online" },
-                    { id: "LSK-002", label: "Westlands Hub", status: "Degraded" },
-                    { id: "LSK-003", label: "Karen Heights", status: "Online" },
-                    { id: "LSK-005", label: "Thika Road Relay", status: "Critical" },
+                    { id: "LSK-001", label: "Lusaka Central", status: "Online" },
+                    { id: "LSK-002", label: "Kalingalinga Hub", status: "Degraded" },
+                    { id: "LSK-003", label: "Kabulonga Heights", status: "Online" },
+                    { id: "LSK-005", label: "Chilungululu Relay", status: "Critical" },
                   ].map((preset) => (
                     <button
                       key={preset.id}
@@ -255,7 +255,7 @@ export default function Landing() {
               <div className="flex items-start justify-between pb-5 border-b border-slate-100 mb-6">
                 <div>
                   <h3 className="text-base font-bold text-slate-950 flex items-center gap-2">
-                    {activeSite === "LSK-001" ? "Nairobi Central" : activeSite === "LSK-002" ? "Westlands Hub" : activeSite === "LSK-003" ? "Karen Heights" : "Thika Road Relay"}
+                    {activeSite === "LSK-001" ? "Lusaka Central" : activeSite === "LSK-002" ? "Kalingalinga Hub" : activeSite === "LSK-003" ? "Kabulonga Heights" : "Chilungululu Relay"}
                     <span className="text-xs font-semibold font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
                       {activeSite}
                     </span>

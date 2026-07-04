@@ -50,7 +50,7 @@ export default function Commercial() {
         </div>
         <div className="card p-5">
           <p className="kpi-label">Monthly Revenue</p>
-          <p className="kpi-value text-emerald-600">KES {(totalRevenue / 1000).toFixed(0)}K</p>
+          <p className="kpi-value text-emerald-600">ZMW {(totalRevenue / 1000).toFixed(0)}K</p>
           <p className="text-xs text-gray-400 mt-1">Contracted</p>
         </div>
         <div className="card p-5">
@@ -163,7 +163,7 @@ export default function Commercial() {
                     <td className="font-medium text-gray-800">{t.tenant_name}</td>
                     <td className="text-gray-500">{t.site_id}</td>
                     <td className="text-xs text-gray-500">{t.equipment_type}</td>
-                    <td className="text-xs font-mono text-gray-700">KES {(t.monthly_revenue / 1000).toFixed(0)}K</td>
+                    <td className="text-xs font-mono text-gray-700">ZMW {(t.monthly_revenue / 1000).toFixed(0)}K</td>
                   </tr>
                 ))}
               </tbody>
@@ -183,7 +183,7 @@ export default function Commercial() {
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
               <XAxis dataKey="site_id" tick={{ fontSize: 11, fill: "#6b7280" }} />
               <YAxis tick={{ fontSize: 10, fill: "#9ca3af" }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`} />
-              <Tooltip formatter={(v) => [`KES ${(v / 1000).toFixed(1)}K`, "Revenue"]} />
+              <Tooltip formatter={(v) => [`ZMW ${(v / 1000).toFixed(1)}K`, "Revenue"]} />
               <Bar dataKey="monthly_revenue" fill="#2563eb" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
