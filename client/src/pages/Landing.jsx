@@ -124,24 +124,19 @@ export default function Landing() {
             </Link>
             <Link 
               to="/login" 
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4.5 py-2 rounded-xl transition-all shadow-sm shadow-blue-500/10 hover:shadow-blue-500/20 hover:scale-[1.02]"
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2 rounded-xl transition-all shadow-sm shadow-blue-500/10 hover:shadow-blue-500/20 hover:scale-[1.02]"
             >
               Launch Console
             </Link>
           </div>
         </div>
       </nav>
-
+ 
       {/* ── Hero Section ───────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden pt-20 pb-28 px-6">
         <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold px-3.5 py-1.5 rounded-full mb-8 animate-fade-in-up">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-            Infrastructure Intelligence Platform v3.0
-          </div>
-
           <h1 className="text-4xl md:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.1] max-w-4xl mx-auto">
-            Decoupled. Intelligent. <br className="hidden md:block"/>
+            Intelligent. <br className="hidden md:block"/>
             Centralized <span className="text-blue-600">Tower Monitoring</span>.
           </h1>
 

@@ -85,8 +85,8 @@ export default function Environment() {
   const fault = !!liveMetrics["environment:equipment_fault"];
 
   return (
-    <div className="p-6 space-y-5 animate-fade-in-up">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 space-y-5 animate-fade-in-up">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Environmental & Sensor Monitoring</h1>
           <p className="text-sm text-gray-500 mt-0.5">Temperature, humidity, smoke, door, and motion sensors</p>
@@ -94,14 +94,14 @@ export default function Environment() {
         <select
           value={selectedSite}
           onChange={(e) => setSelectedSite(e.target.value)}
-          className="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 self-start sm:self-auto"
         >
           {SITES.map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
       </div>
 
       {/* Live sensor tiles */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
         <div className={`card p-4 ${temp > 45 ? "border-red-200 bg-red-50" : ""}`}>
           <p className="text-xs text-gray-500 font-medium">Temperature</p>
           <p className={`text-2xl font-bold mt-1 ${temp > 45 ? "text-red-600" : temp > 38 ? "text-amber-600" : "text-gray-900"}`}>
@@ -163,7 +163,7 @@ export default function Environment() {
       )}
 
       {/* Charts */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="card">
           <div className="card-header">
             <h3 className="text-sm font-semibold text-gray-900">Temperature</h3>

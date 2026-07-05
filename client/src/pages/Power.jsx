@@ -99,8 +99,8 @@ export default function Power() {
   }, [selectedSite, period]);
 
   return (
-    <div className="p-6 space-y-5 animate-fade-in-up">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 space-y-5 animate-fade-in-up">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Power Monitoring</h1>
           <p className="text-sm text-gray-500 mt-0.5">Grid, solar, and generator intelligence</p>
@@ -113,7 +113,7 @@ export default function Power() {
           <h3 className="text-sm font-semibold text-gray-900">Live Power Sources</h3>
           <span className="text-xs text-gray-400 flex items-center gap-1"><span className="live-dot" /> Live</span>
         </div>
-        <div className="p-4 grid grid-cols-5 gap-3">
+        <div className="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
           {SITES.map((sid) => (
             <div key={sid} className="text-center p-3 rounded-xl bg-gray-50">
               <p className="text-xs font-semibold text-gray-600 mb-2">{sid}</p>
@@ -124,7 +124,7 @@ export default function Power() {
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <label className="text-xs font-medium text-gray-600">Site:</label>
           <select
@@ -135,7 +135,7 @@ export default function Power() {
             {SITES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
         </div>
-        <div className="flex gap-1.5">
+        <div className="flex flex-wrap gap-1.5">
           {PERIODS.map((p) => (
             <button
               key={p}
@@ -148,7 +148,7 @@ export default function Power() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Utilization pie */}
         <div className="card">
           <div className="card-header">

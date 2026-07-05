@@ -144,14 +144,14 @@ export default function AdminDemo() {
   };
 
   return (
-    <div className="p-6 space-y-5 animate-fade-in-up">
+    <div className="p-4 sm:p-6 space-y-5 animate-fade-in-up">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Admin Demo Panel</h1>
           <p className="text-sm text-gray-500 mt-0.5">Inject sensor readings and trigger demo scenarios for live demonstration</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
           <span className="text-xs text-gray-400">Logged in as:</span>
           <span className="badge bg-blue-50 text-blue-700">{user?.email}</span>
           <span className="badge badge-critical">Admin Only</span>
@@ -168,7 +168,7 @@ export default function AdminDemo() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left: Scenarios + Inject */}
         <div className="space-y-4">
           {/* Site selector */}

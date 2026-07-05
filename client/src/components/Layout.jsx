@@ -83,6 +83,7 @@ export default function Layout() {
   const { connected, on } = useSocket();
   const [alertCount, setAlertCount] = useState(0);
   const [toasts, setToasts] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     // Show toast on new critical alerts
@@ -100,71 +101,120 @@ export default function Layout() {
     navigate("/");
   };
 
+  const closeSidebar = () => setSidebarOpen(false);
+
+  const renderSidebarContent = (isMobile = false) => (
+    <>
+      {/* Logo */}
+      <div className="px-4 py-5 border-b border-gray-100 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+            S
+          </div>
+          <div>
+            <div className="text-sm font-bold text-gray-900 leading-tight">SiteWatch</div>
+            <div className="text-xs text-blue-600 font-medium">360</div>
+          </div>
+        </div>
+        {isMobile && (
+          <button onClick={closeSidebar} className="text-gray-400 hover:text-gray-700 p-1">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
+        {NAV.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            end={item.to === "/dashboard"}
+            onClick={closeSidebar}
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
+            <span className="flex-shrink-0 leading-none">{getIcon(item.label)}</span>
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
+
+        {isAdmin && (
+          <NavLink
+            to="/dashboard/admin"
+            onClick={closeSidebar}
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""} mt-2 border-t border-gray-100 pt-2`}
+          >
+            <span className="flex-shrink-0 leading-none">{getIcon("Admin")}</span>
+            <span>Admin Panel</span>
+          </NavLink>
+        )}
+      </nav>
+
+      {/* Footer */}
+      <div className="px-3 py-3 border-t border-gray-100">
+        <div className="flex items-center gap-2 px-2 py-2">
+          <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-xs font-bold uppercase">
+            {user?.name?.[0] || "U"}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-medium text-gray-800 truncate">{user?.name || "Operator"}</p>
+            <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
+          </div>
+          <button onClick={handleLogout} className="text-gray-400 hover:text-gray-700 text-xs" title="Logout">
+            ⎋
+          </button>
+        </div>
+      </div>
+    </>
+  );
+
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
-      {/* ── Sidebar ───────────────────────────────────────────────────────── */}
-      <aside className="w-56 bg-white border-r border-gray-100 flex flex-col flex-shrink-0">
-        {/* Logo */}
-        <div className="px-4 py-5 border-b border-gray-100">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">
-              S
-            </div>
-            <div>
-              <div className="text-sm font-bold text-gray-900 leading-tight">SiteWatch</div>
-              <div className="text-xs text-blue-600 font-medium">360</div>
-            </div>
-          </div>
-        </div>
+    <div className="flex h-screen bg-gray-50 overflow-hidden relative">
+      {/* ── Desktop Sidebar ────────────────────────────────────────────────── */}
+      <aside className="w-56 bg-white border-r border-gray-100 flex flex-col flex-shrink-0 hidden md:flex">
+        {renderSidebarContent(false)}
+      </aside>
 
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
-          {NAV.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === "/dashboard"}
-              className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            >
-              <span className="flex-shrink-0 leading-none">{getIcon(item.label)}</span>
-              <span>{item.label}</span>
-            </NavLink>
-          ))}
-
-          {isAdmin && (
-            <NavLink
-              to="/dashboard/admin"
-              className={({ isActive }) => `nav-link ${isActive ? "active" : ""} mt-2 border-t border-gray-100 pt-2`}
-            >
-              <span className="flex-shrink-0 leading-none">{getIcon("Admin")}</span>
-              <span>Admin Panel</span>
-            </NavLink>
-          )}
-        </nav>
-
-        {/* Footer */}
-        <div className="px-3 py-3 border-t border-gray-100">
-          <div className="flex items-center gap-2 px-2 py-2">
-            <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-xs font-bold uppercase">
-              {user?.name?.[0] || "U"}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-gray-800 truncate">{user?.name || "Operator"}</p>
-              <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
-            </div>
-            <button onClick={handleLogout} className="text-gray-400 hover:text-gray-700 text-xs" title="Logout">
-              ⎋
-            </button>
-          </div>
-        </div>
+      {/* ── Mobile Sidebar Drawer ─────────────────────────────────────────── */}
+      {/* Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 md:hidden transition-opacity duration-300"
+          onClick={closeSidebar}
+        />
+      )}
+      {/* Drawer */}
+      <aside
+        className={`fixed inset-y-0 left-0 w-64 bg-white z-50 flex flex-col transition-transform duration-300 ease-in-out md:hidden ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } shadow-xl`}
+      >
+        {renderSidebarContent(true)}
       </aside>
 
       {/* ── Main ──────────────────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400">Infrastructure Intelligence Platform</span>
+        <header className="bg-white border-b border-gray-100 px-4 md:px-6 py-3 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-3">
+            {/* Hamburger Button */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="p-1 -ml-1 text-gray-500 hover:text-blue-600 md:hidden focus:outline-none"
+              title="Open menu"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <span className="text-xs text-gray-400 hidden sm:block">Infrastructure Intelligence Platform</span>
+            {/* Mobile Logo */}
+            <div className="flex items-center gap-1.5 sm:hidden">
+              <span className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center text-white text-[10px] font-bold">S</span>
+              <span className="text-xs font-bold text-gray-900 leading-tight">SiteWatch</span>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             {/* Live indicator */}
@@ -190,7 +240,7 @@ export default function Layout() {
               )}
             </button>
 
-            <div className="text-xs text-gray-400">{new Date().toLocaleDateString("en-GB", { dateStyle: "medium" })}</div>
+            <div className="text-xs text-gray-400 hidden sm:block">{new Date().toLocaleDateString("en-GB", { dateStyle: "medium" })}</div>
           </div>
         </header>
 
@@ -201,9 +251,9 @@ export default function Layout() {
       </div>
 
       {/* ── Toast notifications ───────────────────────────────────────────── */}
-      <div className="fixed bottom-4 right-4 space-y-2 z-50 w-80">
+      <div className="fixed bottom-4 right-4 space-y-2 z-50 w-80 max-w-[calc(100vw-2rem)]">
         {toasts.map((toast) => (
-          <div key={toast.id} className="card p-3 border-l-4 border-red-500 animate-fade-in-up shadow-lg">
+          <div key={toast.id} className="card p-3 border-l-4 border-red-500 animate-fade-in-up shadow-lg bg-white">
             <div className="flex items-start gap-2">
               <svg className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />

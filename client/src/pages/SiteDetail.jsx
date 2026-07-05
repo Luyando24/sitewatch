@@ -104,7 +104,7 @@ export default function SiteDetail() {
   const powerLabel = SOURCE_LABEL[powerSource] || "Unknown";
 
   return (
-    <div className="p-6 space-y-5 animate-fade-in-up">
+    <div className="p-4 sm:p-6 space-y-5 animate-fade-in-up">
       {/* Breadcrumb + header */}
       <div>
         <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
@@ -112,12 +112,12 @@ export default function SiteDetail() {
           <span>/</span>
           <span className="text-gray-700">{site.name}</span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-xl font-bold text-gray-900">{site.name}</h1>
             <p className="text-sm text-gray-500">{site.id} · {site.tower_type} tower · {site.latitude?.toFixed(4)}, {site.longitude?.toFixed(4)}</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 self-start sm:self-auto">
             {alerts.length > 0 && (
               <span className="badge badge-critical">{alerts.length} active alerts</span>
             )}

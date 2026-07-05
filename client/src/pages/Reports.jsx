@@ -49,40 +49,42 @@ export default function Reports() {
   const SEVERITY_COLORS = { critical: "#ef4444", high: "#f97316", medium: "#eab308", low: "#3b82f6" };
 
   return (
-    <div className="p-6 space-y-5 animate-fade-in-up">
+    <div className="p-4 sm:p-6 space-y-5 animate-fade-in-up">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Reports & Analytics</h1>
           <p className="text-sm text-gray-500 mt-0.5">SLA compliance, alerts history, and predictive maintenance</p>
         </div>
-        <button onClick={handleExportCSV} className="btn-secondary text-xs">
+        <button onClick={handleExportCSV} className="btn-secondary text-xs self-start sm:self-auto">
           📥 Export SLA CSV
         </button>
       </div>
 
       {/* Date range */}
-      <div className="flex items-center gap-3 card p-3">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 card p-3">
         <span className="text-xs font-medium text-gray-500">Date range:</span>
-        <input
-          type="date" value={from} onChange={(e) => setFrom(e.target.value)}
-          className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <span className="text-xs text-gray-400">to</span>
-        <input
-          type="date" value={to} onChange={(e) => setTo(e.target.value)}
-          className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button onClick={load} className="btn-primary text-xs py-1.5">Apply</button>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <input
+            type="date" value={from} onChange={(e) => setFrom(e.target.value)}
+            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
+          />
+          <span className="text-xs text-gray-400">to</span>
+          <input
+            type="date" value={to} onChange={(e) => setTo(e.target.value)}
+            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
+          />
+        </div>
+        <button onClick={load} className="btn-primary text-xs py-1.5 self-start sm:self-auto">Apply</button>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 border-b border-gray-100">
+      <div className="flex gap-1 border-b border-gray-100 overflow-x-auto whitespace-nowrap scrollbar-none">
         {["sla", "alerts", "predictive"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2.5 text-xs font-medium capitalize transition-colors border-b-2 -mb-px ${
+            className={`px-4 py-2.5 text-xs font-medium capitalize transition-colors border-b-2 -mb-px flex-shrink-0 ${
               activeTab === tab ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500 hover:text-gray-700"
             }`}
           >

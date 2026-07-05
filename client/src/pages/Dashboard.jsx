@@ -69,14 +69,14 @@ export default function Dashboard() {
   const STATUS_COLORS = ["#10b981", "#f59e0b", "#ef4444"];
 
   return (
-    <div className="p-6 space-y-6 animate-fade-in-up">
+    <div className="p-4 sm:p-6 space-y-6 animate-fade-in-up">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Executive Overview</h1>
           <p className="text-sm text-gray-500 mt-0.5">Portfolio-wide infrastructure intelligence</p>
         </div>
-        <Link to="/dashboard/reports" className="btn-secondary text-xs flex items-center">
+        <Link to="/dashboard/reports" className="btn-secondary text-xs flex items-center self-start sm:self-auto">
           <svg className="w-4 h-4 mr-1 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
           </svg>
@@ -85,7 +85,7 @@ export default function Dashboard() {
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <KPICard 
           label="Total Sites" 
           value={exec?.total_sites || 0} 
@@ -131,9 +131,9 @@ export default function Dashboard() {
       </div>
 
       {/* Charts row */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Site status donut */}
-        <div className="card">
+        <div className="card col-span-1">
           <div className="card-header">
             <h3 className="text-sm font-semibold text-gray-900">Site Status</h3>
           </div>
@@ -157,7 +157,7 @@ export default function Dashboard() {
         </div>
 
         {/* Sites table */}
-        <div className="card col-span-2">
+        <div className="card lg:col-span-2 col-span-1">
           <div className="card-header">
             <h3 className="text-sm font-semibold text-gray-900">Site Status</h3>
             <Link to="/dashboard/sites" className="text-xs text-blue-600 hover:underline">View all →</Link>
@@ -202,7 +202,7 @@ export default function Dashboard() {
       </div>
 
       {/* Alerts + Predictive row */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Active alerts */}
         <div className="card">
           <div className="card-header">

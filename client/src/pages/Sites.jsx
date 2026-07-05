@@ -38,14 +38,14 @@ export default function Sites() {
   if (loading) return <div className="p-8 text-sm text-gray-400">Loading sites...</div>;
 
   return (
-    <div className="p-6 space-y-5 animate-fade-in-up">
+    <div className="p-4 sm:p-6 space-y-5 animate-fade-in-up">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-xl font-bold text-gray-900">Sites</h1>
           <p className="text-sm text-gray-500 mt-0.5">{sites.length} infrastructure sites</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {["all", "up", "degraded", "down"].map((f) => (
             <button
               key={f}
@@ -61,7 +61,7 @@ export default function Sites() {
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: "Online", count: sites.filter((s) => s.status === "up").length, color: "emerald" },
           { label: "Degraded", count: sites.filter((s) => s.status === "degraded").length, color: "amber" },

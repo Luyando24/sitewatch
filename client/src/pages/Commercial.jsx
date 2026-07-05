@@ -35,14 +35,14 @@ export default function Commercial() {
   if (loading) return <div className="p-8 text-sm text-gray-400">Loading commercial data...</div>;
 
   return (
-    <div className="p-6 space-y-5 animate-fade-in-up">
+    <div className="p-4 sm:p-6 space-y-5 animate-fade-in-up">
       <div>
         <h1 className="text-xl font-bold text-gray-900">Commercial Intelligence</h1>
         <p className="text-sm text-gray-500 mt-0.5">Tenancy ratios, revenue, and expansion opportunities</p>
       </div>
 
       {/* Summary KPIs */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="card p-5">
           <p className="kpi-label">Total Tenants</p>
           <p className="kpi-value text-blue-600">{totalTenants}</p>
@@ -92,7 +92,7 @@ export default function Commercial() {
       </div>
 
       {/* Site utilization table */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="card">
           <div className="card-header">
             <h3 className="text-sm font-semibold text-gray-900">Site Utilization</h3>
