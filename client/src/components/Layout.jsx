@@ -108,7 +108,7 @@ export default function Layout() {
       {/* Logo */}
       <div className="px-4 py-5 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <img src="/photos/sitewatch360-logo.svg" alt="SiteWatch 360 Logo" className="w-7 h-7" />
+          <img src="/photos/sitewatch360-logo-thick.svg" alt="SiteWatch 360 Logo" className="w-7 h-7" />
           <div>
             <div className="text-sm font-bold text-gray-900 leading-tight">SiteWatch</div>
             <div className="text-xs text-yellow-600 font-bold">360</div>
@@ -210,7 +210,7 @@ export default function Layout() {
             <span className="text-xs text-gray-400 hidden sm:block">Infrastructure Intelligence Platform</span>
             {/* Mobile Logo */}
             <div className="flex items-center gap-1.5 sm:hidden">
-              <img src="/photos/sitewatch360-logo.svg" alt="SiteWatch 360 Logo" className="w-5 h-5" />
+              <img src="/photos/sitewatch360-logo-thick.svg" alt="SiteWatch 360 Logo" className="w-5 h-5" />
               <span className="text-xs font-bold text-gray-900 leading-tight">SiteWatch 360</span>
             </div>
           </div>

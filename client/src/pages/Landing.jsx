@@ -131,7 +131,7 @@ export default function Landing() {
         <nav className={`max-w-6xl mx-auto flex items-center justify-between transition-all duration-300 ${scrolled ? "py-0.5" : "bg-[#FFCC00] rounded-2xl sm:rounded-full px-6 sm:px-8 py-4 border border-yellow-500/40 shadow-md shadow-yellow-500/10"}`}>
           {/* Brand */}
           <Link to="/" className="flex items-center gap-2">
-            <img src="/photos/sitewatch360-logo.svg" alt="SiteWatch 360 Logo" className="w-8 h-8" />
+            <img src="/photos/sitewatch360-logo-thick.svg" alt="SiteWatch 360 Logo" className="w-8 h-8" />
             <span className="text-slate-950 font-black text-sm uppercase tracking-wider">SiteWatch 360</span>
           </Link>
 
@@ -443,7 +443,7 @@ export default function Landing() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-3">
-              <img src="/photos/sitewatch360-logo.svg" alt="SiteWatch 360 Logo" className="w-7 h-7 filter brightness-0 invert" />
+              <img src="/photos/sitewatch360-logo-thick.svg" alt="SiteWatch 360 Logo" className="w-7 h-7 filter brightness-0 invert" />
               <span className="text-white font-black text-sm">SiteWatch 360</span>
             </div>
             <p className="text-slate-400 text-xs max-w-[200px] leading-relaxed">
