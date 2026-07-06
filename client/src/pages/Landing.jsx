@@ -148,7 +148,7 @@ export default function Landing() {
               Sign In
             </Link>
             <Link to="/login" className="bg-slate-950 hover:bg-slate-900 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all shadow-md hover:scale-[1.02] flex items-center gap-2">
-              Launch Console
+              Dashboard
               <svg className="w-3.5 h-3.5 text-[#FFCC00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
