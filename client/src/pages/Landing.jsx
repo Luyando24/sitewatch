@@ -158,40 +158,46 @@ export default function Landing() {
         </nav>
       </header>
 
-      {/* ── HERO — full-bleed sunset tower image (Extended to top of viewport) ── */}
-      <section className="relative overflow-hidden w-full mb-10 text-white" style={{ minHeight: "580px" }}>
-        <img
-          src={HERO_BG}
-          alt="Telecom tower at sunset"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        {/* rich gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/70 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+      {/* ── HERO — full-bleed section with 2-column layout (Extended to top of viewport) ── */}
+      <section className="relative overflow-hidden w-full mb-10 text-white bg-[#030712] border-b border-slate-900" style={{ minHeight: "580px" }}>
+        {/* Glow effects */}
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-slate-900/40 rounded-full blur-[100px] pointer-events-none" />
 
-        {/* Ambient glow */}
-        <div className="absolute bottom-0 left-0 w-[500px] h-[300px] bg-yellow-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-6xl mx-auto w-full px-6 sm:px-12 pt-32 pb-16 sm:pt-40 sm:pb-24 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center min-h-[580px]">
+          {/* Left Column: Text Content */}
+          <div className="lg:col-span-7 flex flex-col justify-center text-left">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.08] tracking-tight mb-6">
+              Every Tower.<br/>
+              Every Metric.<br/>
+              <span className="text-[#FFCC00]">One Console.</span>
+            </h1>
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-8 max-w-lg font-medium">
+              SiteWatch 360 unifies real-time power, fuel, security, and environmental telemetry into a single zero-polling workspace built for telecom operators. Secure unmanned tower sites, prevent generator fuel theft in real-time, and guarantee a 99.98% co-location uptime SLA.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/login" className="px-7 py-3 bg-[#FFCC00] hover:bg-[#FFD200] text-slate-950 rounded-full font-black text-xs transition-all shadow-md shadow-yellow-500/20 hover:scale-[1.02]">
+                EXPLORE CONSOLE
+              </Link>
+              <a href="#integrations" className="px-7 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full font-bold text-xs transition-all">
+                VIEW INTEGRATIONS
+              </a>
+            </div>
+          </div>
 
-        <div className="max-w-6xl mx-auto w-full px-6 sm:px-12 pt-32 pb-16 sm:pt-40 sm:pb-24 relative z-10 flex flex-col justify-center min-h-[580px]">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.08] tracking-tight mb-6">
-            Every Tower.<br/>
-            Every Metric.<br/>
-            <span className="text-[#FFCC00]">One Console.</span>
-          </h1>
-          <p className="text-sm sm:text-base text-slate-350 leading-relaxed mb-8 max-w-lg">
-            SiteWatch 360 unifies real-time power, fuel, security, and environmental telemetry into a single zero-polling workspace built for telecom operators. Secure unmanned tower sites, prevent generator fuel theft in real-time, and guarantee a 99.98% co-location uptime SLA.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/login" className="px-7 py-3 bg-[#FFCC00] hover:bg-[#FFD200] text-slate-950 rounded-full font-black text-xs transition-all shadow-md shadow-yellow-500/20 hover:scale-[1.02]">
-              EXPLORE CONSOLE
-            </Link>
-            <a href="#integrations" className="px-7 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full font-bold text-xs transition-all">
-              VIEW INTEGRATIONS
-            </a>
+          {/* Right Column: High Resolution uncropped Image */}
+          <div className="lg:col-span-5 flex justify-center items-center">
+            <div className="relative w-full max-w-[420px] aspect-square rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-900 group">
+              <img
+                src={HERO_BG}
+                alt="Telecom tower at sunset"
+                className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-700"
+              />
+              {/* Subtle overlay gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none" />
+            </div>
           </div>
         </div>
-
-
       </section>
 
       {/* ── STATS BAR ───────────────────────────────────────────────────────── */}
