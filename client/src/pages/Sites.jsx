@@ -51,7 +51,7 @@ export default function Sites() {
               key={f}
               onClick={() => setFilter(f)}
               className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
-                filter === f ? "bg-blue-600 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                filter === f ? "bg-[#FFCC00] text-slate-950 font-bold" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
               }`}
             >
               {f === "all" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}
@@ -85,12 +85,12 @@ export default function Sites() {
             <Link
               key={site.id}
               to={`/dashboard/sites/${site.id}`}
-              className="card p-5 hover:border-blue-200 hover:shadow-md transition-all group"
+              className="card p-5 hover:border-yellow-250 hover:shadow-md transition-all group"
             >
               {/* Site header */}
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-sm font-semibold text-gray-900 group-hover:text-yellow-600 transition-colors">
                     {site.name}
                   </h3>
                   <p className="text-xs text-gray-400 mt-0.5">{site.id} · {site.tower_type} tower</p>

@@ -67,12 +67,12 @@ export default function Reports() {
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <input
             type="date" value={from} onChange={(e) => setFrom(e.target.value)}
-            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
+            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full sm:w-auto"
           />
           <span className="text-xs text-gray-400">to</span>
           <input
             type="date" value={to} onChange={(e) => setTo(e.target.value)}
-            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
+            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-yellow-500 w-full sm:w-auto"
           />
         </div>
         <button onClick={load} className="btn-primary text-xs py-1.5 self-start sm:self-auto">Apply</button>
@@ -85,7 +85,7 @@ export default function Reports() {
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-4 py-2.5 text-xs font-medium capitalize transition-colors border-b-2 -mb-px flex-shrink-0 ${
-              activeTab === tab ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500 hover:text-gray-700"
+              activeTab === tab ? "border-[#FFCC00] text-yellow-600 font-bold" : "border-transparent text-gray-500 hover:text-gray-700"
             }`}
           >
             {tab === "sla" ? "SLA Compliance" : tab === "alerts" ? "Alerts History" : "Predictive Maintenance"}
@@ -114,7 +114,7 @@ export default function Reports() {
                       <Tooltip formatter={(v, n) => [`${v}%`, n === "uptime_pct" ? "Actual" : "Target"]} />
                       <Bar dataKey="uptime_pct" name="Actual Uptime" radius={[4, 4, 0, 0]}>
                         {(sla?.sites || []).map((s, i) => (
-                          <Cell key={i} fill={s.compliant ? "#2563eb" : "#ef4444"} />
+                          <Cell key={i} fill={s.compliant ? "#eab308" : "#ef4444"} />
                         ))}
                       </Bar>
                       <Bar dataKey="target_pct" name="SLA Target" fill="#e2e8f0" radius={[4, 4, 0, 0]} />
@@ -148,7 +148,7 @@ export default function Reports() {
                               <p className="text-xs text-gray-400">{s.site_id}</p>
                             </div>
                           </td>
-                          <td className={`font-mono font-semibold ${s.compliant ? "text-blue-600" : "text-red-600"}`}>
+                          <td className={`font-mono font-semibold ${s.compliant ? "text-yellow-600" : "text-red-600"}`}>
                             {s.uptime_pct}%
                           </td>
                           <td className="text-gray-500 font-mono">{s.target_pct}%</td>
@@ -214,7 +214,7 @@ export default function Reports() {
                     </td>
                     <td>
                       {!a.acknowledged && !a.resolved_at && (
-                        <button onClick={() => acknowledgeAlert(a.id)} className="text-xs text-blue-600 hover:underline">
+                        <button onClick={() => acknowledgeAlert(a.id)} className="text-xs text-yellow-600 hover:underline">
                           Ack
                         </button>
                       )}

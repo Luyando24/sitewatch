@@ -168,7 +168,7 @@ export default function Fuel() {
                       <div className="flex items-center gap-2">
                         <div className="flex-1 bg-gray-100 rounded-full h-1.5 w-20">
                           <div
-                            className={`h-1.5 rounded-full transition-all ${fuel < 10 ? "bg-red-500" : fuel < 20 ? "bg-orange-400" : "bg-blue-500"}`}
+                            className={`h-1.5 rounded-full transition-all ${fuel < 10 ? "bg-red-500" : fuel < 20 ? "bg-orange-400" : "bg-yellow-500"}`}
                             style={{ width: `${Math.min(100, fuel)}%` }}
                           />
                         </div>
@@ -192,7 +192,7 @@ export default function Fuel() {
           <select
             value={selectedSite}
             onChange={(e) => setSelectedSite(e.target.value)}
-            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-yellow-500"
           >
             {SITES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>

@@ -7,11 +7,11 @@ import {
 } from "recharts";
 
 const SITES = ["LSK-001", "LSK-002", "LSK-003", "LSK-004", "LSK-005"];
-const SOURCE_COLORS = { Grid: "#2563eb", Solar: "#f59e0b", Generator: "#8b5cf6" };
+const SOURCE_COLORS = { Grid: "#eab308", Solar: "#f59e0b", Generator: "#8b5cf6" };
 const PERIODS = ["daily", "weekly", "monthly", "quarterly", "yearly"];
 
 function PowerSourceBadge({ source }) {
-  const colors = { Grid: "bg-blue-50 text-blue-700", Solar: "bg-yellow-50 text-yellow-700", Generator: "bg-purple-50 text-purple-700" };
+  const colors = { Grid: "bg-yellow-50 text-yellow-700", Solar: "bg-yellow-100 text-yellow-800", Generator: "bg-purple-50 text-purple-700" };
   
   const getSourceIcon = (src) => {
     const css = "w-3 h-3 text-current";
@@ -130,7 +130,7 @@ export default function Power() {
           <select
             value={selectedSite}
             onChange={(e) => setSelectedSite(e.target.value)}
-            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-xs border border-gray-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-yellow-500"
           >
             {SITES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
@@ -140,7 +140,7 @@ export default function Power() {
             <button
               key={p}
               onClick={() => setPeriod(p)}
-              className={`text-xs px-2.5 py-1 rounded-md font-medium capitalize transition-colors ${period === p ? "bg-blue-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
+              className={`text-xs px-2.5 py-1 rounded-md font-medium capitalize transition-colors ${period === p ? "bg-[#FFCC00] text-slate-950 font-bold" : "text-gray-500 hover:bg-gray-100"}`}
             >
               {p}
             </button>

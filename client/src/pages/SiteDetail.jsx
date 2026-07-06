@@ -108,7 +108,7 @@ export default function SiteDetail() {
       {/* Breadcrumb + header */}
       <div>
         <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
-          <Link to="/dashboard/sites" className="hover:text-blue-600">Sites</Link>
+          <Link to="/dashboard/sites" className="hover:text-yellow-600">Sites</Link>
           <span>/</span>
           <span className="text-gray-700">{site.name}</span>
         </div>

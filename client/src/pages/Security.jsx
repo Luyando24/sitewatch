@@ -85,7 +85,7 @@ export default function Security() {
         <select
           value={selectedSite}
           onChange={(e) => setSelectedSite(e.target.value)}
-          className="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 self-start sm:self-auto"
+          className="text-xs border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-yellow-500 self-start sm:self-auto"
         >
           {SITES.map((s) => <option key={s} value={s}>{s}</option>)}
         </select>

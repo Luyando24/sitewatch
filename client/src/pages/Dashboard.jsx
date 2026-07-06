@@ -160,7 +160,7 @@ export default function Dashboard() {
         <div className="card lg:col-span-2 col-span-1">
           <div className="card-header">
             <h3 className="text-sm font-semibold text-gray-900">Site Status</h3>
-            <Link to="/dashboard/sites" className="text-xs text-blue-600 hover:underline">View all →</Link>
+            <Link to="/dashboard/sites" className="text-xs text-yellow-600 hover:underline">View all →</Link>
           </div>
           <div className="overflow-x-auto">
             <table className="table-base">
@@ -175,7 +175,7 @@ export default function Dashboard() {
                 {sites.map((s) => (
                   <tr key={s.id}>
                     <td>
-                      <Link to={`/dashboard/sites/${s.id}`} className="text-blue-600 hover:underline font-medium">
+                      <Link to={`/dashboard/sites/${s.id}`} className="text-yellow-600 hover:underline font-medium">
                         {s.name}
                       </Link>
                       <span className="text-xs text-gray-400 ml-1.5">{s.id}</span>
@@ -207,7 +207,7 @@ export default function Dashboard() {
         <div className="card">
           <div className="card-header">
             <h3 className="text-sm font-semibold text-gray-900">Active Alerts</h3>
-            <Link to="/dashboard/reports" className="text-xs text-blue-600 hover:underline">All alerts →</Link>
+            <Link to="/dashboard/reports" className="text-xs text-yellow-600 hover:underline">All alerts →</Link>
           </div>
           <div className="divide-y divide-gray-50">
             {alerts.length === 0 && (
@@ -220,7 +220,7 @@ export default function Dashboard() {
                   <p className="text-xs font-semibold text-gray-800">{a.site_id} — {a.type.replace(/_/g, " ")}</p>
                   <p className="text-xs text-gray-500 truncate mt-0.5">{a.message}</p>
                 </div>
-                <button onClick={() => acknowledgeAlert(a.id)} className="text-xs text-blue-600 hover:text-blue-800 flex-shrink-0">
+                <button onClick={() => acknowledgeAlert(a.id)} className="text-xs text-yellow-600 hover:text-yellow-800 flex-shrink-0">
                   Ack
                 </button>
               </div>

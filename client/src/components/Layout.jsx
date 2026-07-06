@@ -108,12 +108,12 @@ export default function Layout() {
       {/* Logo */}
       <div className="px-4 py-5 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">
+          <div className="w-7 h-7 bg-[#FFCC00] rounded-lg flex items-center justify-center text-slate-950 text-sm font-extrabold shadow-sm select-none">
             S
           </div>
           <div>
             <div className="text-sm font-bold text-gray-900 leading-tight">SiteWatch</div>
-            <div className="text-xs text-blue-600 font-medium">360</div>
+            <div className="text-xs text-yellow-600 font-bold">360</div>
           </div>
         </div>
         {isMobile && (
@@ -155,7 +155,7 @@ export default function Layout() {
       {/* Footer */}
       <div className="px-3 py-3 border-t border-gray-100">
         <div className="flex items-center gap-2 px-2 py-2">
-          <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-xs font-bold uppercase">
+          <div className="w-7 h-7 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-800 text-xs font-bold uppercase">
             {user?.name?.[0] || "U"}
           </div>
           <div className="flex-1 min-w-0">
@@ -202,7 +202,7 @@ export default function Layout() {
             {/* Hamburger Button */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="p-1 -ml-1 text-gray-500 hover:text-blue-600 md:hidden focus:outline-none"
+              className="p-1 -ml-1 text-gray-500 hover:text-yellow-600 md:hidden focus:outline-none"
               title="Open menu"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -212,7 +212,7 @@ export default function Layout() {
             <span className="text-xs text-gray-400 hidden sm:block">Infrastructure Intelligence Platform</span>
             {/* Mobile Logo */}
             <div className="flex items-center gap-1.5 sm:hidden">
-              <span className="w-5 h-5 bg-blue-600 rounded flex items-center justify-center text-white text-[10px] font-bold">S</span>
+              <span className="w-5 h-5 bg-[#FFCC00] rounded flex items-center justify-center text-slate-950 text-[10px] font-extrabold">S</span>
               <span className="text-xs font-bold text-gray-900 leading-tight">SiteWatch</span>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function Layout() {
             {/* Alert bell */}
             <button
               onClick={() => navigate("/dashboard/reports")}
-              className="relative p-1 text-gray-500 hover:text-blue-600 transition-colors"
+              className="relative p-1 text-gray-500 hover:text-yellow-600 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />

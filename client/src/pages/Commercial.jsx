@@ -45,7 +45,7 @@ export default function Commercial() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="card p-5">
           <p className="kpi-label">Total Tenants</p>
-          <p className="kpi-value text-blue-600">{totalTenants}</p>
+          <p className="kpi-value text-yellow-600">{totalTenants}</p>
           <p className="text-xs text-gray-400 mt-1">Across all sites</p>
         </div>
         <div className="card p-5">
@@ -75,14 +75,14 @@ export default function Commercial() {
               <Tooltip formatter={(v, n, p) => [`${v}% (${p.payload.tenant_count}/${p.payload.capacity})`, "Utilization"]} />
               <Bar dataKey="utilization_pct" radius={[4, 4, 0, 0]}>
                 {utilization.map((u, i) => (
-                  <Cell key={i} fill={u.expansion_opportunity ? "#f59e0b" : "#2563eb"} />
+                  <Cell key={i} fill={u.expansion_opportunity ? "#f59e0b" : "#eab308"} />
                 ))}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
           <div className="flex gap-4 mt-2 justify-center">
             <div className="flex items-center gap-1.5 text-xs text-gray-500">
-              <div className="w-3 h-3 rounded bg-blue-500" /> At/above threshold
+              <div className="w-3 h-3 rounded bg-yellow-500" /> At/above threshold
             </div>
             <div className="flex items-center gap-1.5 text-xs text-gray-500">
               <div className="w-3 h-3 rounded bg-amber-400" /> Expansion opportunity
@@ -118,7 +118,7 @@ export default function Commercial() {
                       <div className="flex items-center gap-2">
                         <div className="w-16 bg-gray-100 rounded-full h-1.5">
                           <div
-                            className={`h-1.5 rounded-full ${u.expansion_opportunity ? "bg-amber-400" : "bg-blue-500"}`}
+                            className={`h-1.5 rounded-full ${u.expansion_opportunity ? "bg-amber-400" : "bg-yellow-500"}`}
                             style={{ width: `${u.utilization_pct}%` }}
                           />
                         </div>

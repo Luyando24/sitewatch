@@ -56,17 +56,17 @@
 
   /* Sidebar nav link */
   .nav-link {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-yellow-50 hover:text-yellow-700 transition-colors duration-150;
   }
   .nav-link.active {
-    @apply bg-blue-600 text-white hover:bg-blue-700 hover:text-white;
+    @apply bg-[#FFCC00] text-slate-950 hover:bg-[#FFD200] hover:text-slate-950 font-bold;
   }
 
   /* Btn */
   .btn {
     @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150 cursor-pointer disabled:opacity-50;
   }
-  .btn-primary   { @apply btn bg-blue-600 text-white hover:bg-blue-700; }
+  .btn-primary   { @apply btn bg-[#FFCC00] text-slate-950 hover:bg-[#FFD200]; }
   .btn-secondary { @apply btn bg-white text-gray-700 border border-gray-200 hover:bg-gray-50; }
   .btn-danger    { @apply btn bg-red-50 text-red-700 hover:bg-red-100; }
   .btn-ghost     { @apply btn text-gray-600 hover:bg-gray-100; }

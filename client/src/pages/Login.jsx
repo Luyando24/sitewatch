@@ -34,9 +34,8 @@ export default function Login() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-6">
-            <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold">S</div>
-            <span className="text-xl font-bold text-gray-900">SiteWatch <span className="text-blue-600">360</span></span>
+          <Link to="/" className="inline-block mb-6">
+            <span className="text-2xl font-black text-gray-900 tracking-tight">SiteWatch <span className="text-yellow-600">360</span></span>
           </Link>
           <h1 className="text-xl font-bold text-gray-900">Sign in to your account</h1>
           <p className="text-sm text-gray-500 mt-1">Enter your credentials to access the platform</p>
@@ -44,11 +43,11 @@ export default function Login() {
 
         {/* Quick fill buttons */}
         <div className="flex gap-2 mb-4">
-          <button onClick={() => fillDemo("operator")} className="flex-1 text-xs py-1.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
-            👤 Operator demo
+          <button onClick={() => fillDemo("operator")} className="flex-1 text-xs py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 font-semibold transition-colors">
+            Operator Demo
           </button>
-          <button onClick={() => fillDemo("admin")} className="flex-1 text-xs py-1.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">
-            🔑 Admin demo
+          <button onClick={() => fillDemo("admin")} className="flex-1 text-xs py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 font-semibold transition-colors">
+            Admin Demo
           </button>
         </div>
 
@@ -66,7 +65,7 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
               />
             </div>
 
@@ -81,7 +80,7 @@ export default function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
               />
             </div>
 
@@ -94,7 +93,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary py-2.5 justify-center font-semibold"
+              className="w-full btn-primary py-2.5 justify-center font-bold"
             >
               {loading ? "Signing in..." : "Sign in →"}
             </button>
@@ -102,7 +101,7 @@ export default function Login() {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-4">
-          <Link to="/" className="text-blue-600 hover:underline">← Back to home</Link>
+          <Link to="/" className="text-yellow-600 hover:underline">← Back to home</Link>
         </p>
       </div>
     </div>

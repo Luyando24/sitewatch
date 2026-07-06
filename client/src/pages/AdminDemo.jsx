@@ -153,7 +153,7 @@ export default function AdminDemo() {
         </div>
         <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
           <span className="text-xs text-gray-400">Logged in as:</span>
-          <span className="badge bg-blue-50 text-blue-700">{user?.email}</span>
+          <span className="badge bg-yellow-50 text-yellow-700">{user?.email}</span>
           <span className="badge badge-critical">Admin Only</span>
         </div>
       </div>
@@ -179,7 +179,7 @@ export default function AdminDemo() {
                 <button
                   key={s}
                   onClick={() => setSelectedSite(s)}
-                  className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${selectedSite === s ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                  className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${selectedSite === s ? "bg-[#FFCC00] text-slate-950 font-bold" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
                 >
                   {s}
                 </button>
@@ -227,7 +227,7 @@ export default function AdminDemo() {
                   <select
                     value={selectedMetric.metric}
                     onChange={(e) => setSelectedMetric(METRICS.find((m) => m.metric === e.target.value))}
-                    className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   >
                     {METRICS.map((m) => <option key={m.metric} value={m.metric}>{m.label}</option>)}
                   </select>
@@ -240,7 +240,7 @@ export default function AdminDemo() {
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     placeholder="Enter value..."
-                    className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full text-xs border border-gray-200 rounded-lg px-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     required
                   />
                 </div>
