@@ -34,8 +34,8 @@ export default function Login() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-6">
-            <img src="/photos/sitewatch360-logo-thick.svg" alt="SiteWatch 360 Logo" className="w-8 h-8" />
+          <Link to="/" className="inline-flex items-center gap-3 mb-6">
+            <img src="/photos/sitewatch360-logo-thick.svg" alt="SiteWatch 360 Logo" className="w-12 h-12" />
             <span className="text-2xl font-black text-gray-900 tracking-tight">SiteWatch <span className="text-yellow-600">360</span></span>
           </Link>
           <h1 className="text-xl font-bold text-gray-900">Sign in to your account</h1>
