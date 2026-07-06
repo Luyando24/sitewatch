@@ -1,60 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+
+// Real local photos
+const HERO_BG = "/photos/unnamed.jpg";           // sunset silhouette tower
+const TOWER_CLOSE = "/photos/5G-Tower-Stock-Image.jpg"; // 5G tower close-up
+const SITE_SOLAR = "/photos/6Obm8C2.jpeg";       // Zambia site with solar panel
+const TECH_CLIMB = "/photos/Unmatched-Internet-Connectivity-Quality-768x512.webp"; // engineer on tower
+
+const STATS = [
+  { value: "99.98%", label: "Portfolio Uptime SLA", icon: "↑" },
+  { value: "35%",    label: "Less Generator Runtime", icon: "↓" },
+  { value: "< 1s",   label: "Alert Broadcast Latency", icon: "⚡" },
+  { value: "100%",   label: "Fuel Theft Detection", icon: "🛡" },
+];
 
 const FEATURES = [
   {
-    icon: (
-      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5" />
-      </svg>
-    ),
-    title: "Infrastructure Intelligence",
-    desc: "Centralized site-by-site status monitoring. Track real-time uptime indicators and generate exportable SLA compliance reports.",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
+    tag: "POWER MANAGEMENT",
     title: "Smart Power Switchboard",
-    desc: "Visual switching timelines and source breakdown charts tracking Grid, Solar, and Generator runtimes automatically.",
+    desc: "Automated Grid → Solar → Generator failover tracking with live switching timelines, load-break visualizations, and historical runtime charts.",
+    img: SITE_SOLAR,
+    accent: "bg-[#3C2060]",
+    textAccent: "text-purple-300",
   },
   {
-    icon: (
-      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-      </svg>
-    ),
-    title: "Fuel & Gen Assurance",
-    desc: "Threshold-triggered low fuel warnings combined with rate-of-consumption anomaly detection to catch fuel theft instantly.",
+    tag: "SECURITY & SURVEILLANCE",
+    title: "Active Perimeter Defense",
+    desc: "Intrusion motion logs, CCTV feed tile previews, door contact states, and instant operator alarm acknowledgment — all in one pane.",
+    img: TECH_CLIMB,
+    accent: "bg-[#0B2040]",
+    textAccent: "text-blue-300",
   },
   {
-    icon: (
-      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    ),
-    title: "Active Security Log",
-    desc: "Intrusion and motion event logs with timestamps, CCTV camera tile previews, and real-time operator alarm acknowledgment.",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 3v10.158a4 4 0 106 0V3a3 3 0 10-6 0z" />
-      </svg>
-    ),
-    title: "Telemetry & Environment",
-    desc: "Live charts for temperature and humidity, door contact state logs, smoke/fire indicators, and equipment health alerts.",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-    title: "Commercial Tenancy",
-    desc: "Track client equipment load per site, calculate capacity-to-tenancy ratios, and automatically flag revenue opportunities.",
+    tag: "FUEL & GEN ASSURANCE",
+    title: "Diesel Anomaly Detection",
+    desc: "Real-time rate-of-consumption analysis detects fuel theft in minutes. Threshold alerts fire before tanks hit critical reserve levels.",
+    img: TOWER_CLOSE,
+    accent: "bg-[#1C2C1C]",
+    textAccent: "text-emerald-300",
   },
 ];
 
@@ -64,394 +47,461 @@ export default function Landing() {
   const [fuelPct, setFuelPct] = useState(78);
   const [temp, setTemp] = useState(24.5);
   const [activeFaq, setActiveFaq] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
+  const tickerRef = useRef(null);
 
-  // Mock live simulation on the landing page
+  // Live telemetry simulation drift
   useEffect(() => {
     const timer = setInterval(() => {
-      // Gentle drift for simulation variables
       setTemp((prev) => +(prev + (Math.random() - 0.5) * 0.4).toFixed(1));
       if (powerSource === "Generator") {
-        setFuelPct((prev) => Math.max(5, +(prev - 0.1).toFixed(2)));
+        setFuelPct((prev) => Math.max(5, +(prev - 0.12).toFixed(2)));
       }
     }, 3000);
     return () => clearInterval(timer);
   }, [powerSource]);
 
+  // Navbar scroll shadow
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const selectSitePreset = (siteId) => {
     setActiveSite(siteId);
-    if (siteId === "LSK-001") {
-      setPowerSource("Grid");
-      setFuelPct(78);
-      setTemp(24.5);
-    } else if (siteId === "LSK-002") {
-      setPowerSource("Generator");
-      setFuelPct(64.2);
-      setTemp(32.1);
-    } else if (siteId === "LSK-003") {
-      setPowerSource("Solar");
-      setFuelPct(92.0);
-      setTemp(21.8);
-    } else if (siteId === "LSK-005") {
-      setPowerSource("Generator");
-      setFuelPct(6.8);
-      setTemp(34.5);
-    }
+    const presets = {
+      "LSK-001": { powerSource: "Grid",      fuelPct: 78,   temp: 24.5 },
+      "LSK-002": { powerSource: "Generator", fuelPct: 64.2, temp: 32.1 },
+      "LSK-003": { powerSource: "Solar",     fuelPct: 92.0, temp: 21.8 },
+      "LSK-005": { powerSource: "Generator", fuelPct: 6.8,  temp: 34.5 },
+    };
+    const p = presets[siteId];
+    setPowerSource(p.powerSource);
+    setFuelPct(p.fuelPct);
+    setTemp(p.temp);
+  };
+
+  const siteNames = {
+    "LSK-001": "Lusaka Central",
+    "LSK-002": "Kalingalinga Hub",
+    "LSK-003": "Kabulonga Heights",
+    "LSK-005": "Chilungululu Relay",
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-500 selection:text-white">
-      {/* ── Navbar ─────────────────────────────────────────────────────────── */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-sm shadow-blue-500/20">
-              S
+    <div className="min-h-screen bg-[#F4F5F9] text-slate-800 font-sans selection:bg-[#FFCC00] selection:text-slate-950">
+
+
+
+      {/* ── FLOATING YELLOW NAVBAR (Overlays Hero y=0) ───────────────────────── */}
+      <header className={`left-0 right-0 z-50 transition-all duration-350 ${scrolled ? "fixed top-0 bg-[#FFCC00] py-3.5 shadow-lg border-b border-yellow-500/20 px-4 sm:px-6" : "absolute top-0 py-5 px-4 sm:px-6"}`}>
+        <nav className={`max-w-6xl mx-auto flex items-center justify-between transition-all duration-300 ${scrolled ? "py-0.5" : "bg-[#FFCC00] rounded-2xl sm:rounded-full px-6 sm:px-8 py-4 border border-yellow-500/40 shadow-md shadow-yellow-500/10"}`}>
+          {/* Brand */}
+          <div className="flex items-center gap-4">
+            <div className="bg-slate-950 text-[#FFCC00] rounded-xl px-3 py-2 font-extrabold text-sm tracking-tight shadow-sm select-none leading-none">
+              SW360
             </div>
-            <span className="text-base font-bold tracking-tight text-slate-950">
-              SiteWatch <span className="text-blue-600">360</span>
-            </span>
-          </div>
-          
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-            <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
-            <a href="#preview" className="hover:text-blue-600 transition-colors">Live Preview</a>
-            <a href="#architecture" className="hover:text-blue-600 transition-colors">Architecture</a>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Link to="/login" className="hidden sm:block text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors px-3 py-2">
+          {/* Nav links */}
+          <div className="hidden lg:flex items-center gap-8 text-sm font-bold text-slate-900">
+            <a href="#features" className="hover:text-slate-600 transition-colors">Features</a>
+            <a href="#preview" className="hover:text-slate-600 transition-colors">NOC Console</a>
+            <a href="#solutions" className="hover:text-slate-600 transition-colors">Solutions</a>
+            <a href="#architecture" className="hover:text-slate-600 transition-colors">Architecture</a>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3">
+            <Link to="/login" className="hidden sm:block text-sm font-bold text-slate-800 hover:text-slate-950 px-3 py-2">
               Sign In
             </Link>
-            <Link 
-              to="/login" 
-              className="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold px-3 sm:px-5 py-1.5 sm:py-2 rounded-xl transition-all shadow-sm shadow-blue-500/10 hover:shadow-blue-500/20 hover:scale-[1.02]"
-            >
+            <Link to="/login" className="bg-slate-950 hover:bg-slate-900 text-white text-sm font-bold px-6 py-2.5 rounded-full transition-all shadow-md hover:scale-[1.02] flex items-center gap-2">
               Launch Console
+              <svg className="w-3.5 h-3.5 text-[#FFCC00]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
             </Link>
           </div>
-        </div>
-      </nav>
- 
-      {/* ── Hero Section ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 sm:pb-28 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.1] max-w-4xl mx-auto">
-            Intelligent. <br className="hidden md:block"/>
-            Centralized <span className="text-blue-600">Tower Monitoring</span>.
+        </nav>
+      </header>
+
+      {/* ── HERO — full-bleed sunset tower image (Extended to top of viewport) ── */}
+      <section className="relative overflow-hidden w-full mb-10 text-white" style={{ minHeight: "580px" }}>
+        <img
+          src={HERO_BG}
+          alt="Telecom tower at sunset"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        {/* rich gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+
+        {/* Ambient glow */}
+        <div className="absolute bottom-0 left-0 w-[500px] h-[300px] bg-yellow-500/10 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto w-full px-6 sm:px-12 pt-32 pb-16 sm:pt-40 sm:pb-24 relative z-10 flex flex-col justify-center min-h-[580px]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-[1.08] tracking-tight mb-6">
+            Every Tower.<br/>
+            Every Metric.<br/>
+            <span className="text-[#FFCC00]">One Console.</span>
           </h1>
-
-          <p className="mt-6 text-base md:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            SiteWatch 360 unifies power sources, fuel levels, security alerts, environmental sensors, 
-            and client tenancy ratios into a single premium interface. Designed for seamless IoT integration.
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-8 max-w-lg">
+            SiteWatch 360 gives you live telemetry across your entire co-location tower portfolio — power source switching, fuel levels, security perimeters, and environmental sensors — unified in one operator workspace.
           </p>
-
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-            <Link
-              to="/login"
-              className="w-full sm:w-auto px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm transition-all shadow-md shadow-blue-500/15 hover:shadow-blue-500/25 hover:scale-[1.02] text-center"
-            >
-              Explore Demo Workspace
+          <div className="flex flex-wrap gap-3">
+            <Link to="/login" className="px-7 py-3 bg-[#FFCC00] hover:bg-[#FFD200] text-slate-950 rounded-full font-black text-xs transition-all shadow-md shadow-yellow-500/20 hover:scale-[1.02]">
+              EXPLORE CONSOLE
             </Link>
-            <a
-              href="#preview"
-              className="w-full sm:w-auto px-7 py-3.5 bg-white border border-slate-200 text-slate-700 rounded-xl font-semibold text-sm hover:bg-slate-50 transition-all text-center"
-            >
-              Try Interactive Preview
+            <a href="#preview" className="px-7 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full font-bold text-xs transition-all">
+              TRY LIVE DEMO
             </a>
           </div>
         </div>
 
-        {/* Subtle Background Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+
       </section>
 
-      {/* ── Interactive Live Preview Section ───────────────────────────────── */}
-      <section id="preview" className="bg-slate-100 border-y border-slate-200/60 py-12 sm:py-24 px-4 sm:px-6 relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-950">Interactive Simulation Hub</h2>
-            <p className="text-slate-500 mt-2 text-sm max-w-lg mx-auto">
-              Simulate sensor overrides right here. Choose a site preset below to see how our layout displays dynamic status conditions.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left: Preset Selector & Controls */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Select Site Preset</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { id: "LSK-001", label: "Lusaka Central", status: "Online" },
-                    { id: "LSK-002", label: "Kalingalinga Hub", status: "Degraded" },
-                    { id: "LSK-003", label: "Kabulonga Heights", status: "Online" },
-                    { id: "LSK-005", label: "Chilungululu Relay", status: "Critical" },
-                  ].map((preset) => (
-                    <button
-                      key={preset.id}
-                      onClick={() => selectSitePreset(preset.id)}
-                      className={`text-left p-3.5 rounded-xl border transition-all ${
-                        activeSite === preset.id
-                          ? "border-blue-600 bg-blue-50/50 ring-1 ring-blue-600"
-                          : "border-slate-200/70 hover:border-slate-300 bg-white"
-                      }`}
-                    >
-                      <p className="text-xs font-bold text-slate-900">{preset.id}</p>
-                      <p className="text-xs text-slate-500 truncate mt-0.5">{preset.label}</p>
-                      <span className={`inline-block w-1.5 h-1.5 rounded-full mt-2 ${
-                        preset.status === "Online" ? "bg-emerald-500" : preset.status === "Critical" ? "bg-red-500" : "bg-amber-500"
-                      }`} />
-                    </button>
-                  ))}
-                </div>
+      {/* ── STATS BAR ───────────────────────────────────────────────────────── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {STATS.map((s, i) => (
+            <div key={i} className="bg-white border border-slate-200/70 rounded-2xl p-5 shadow-sm flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#FFCC00]/15 flex items-center justify-center text-base flex-shrink-0">
+                {s.icon}
               </div>
-
-              <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm space-y-4">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Dynamic Controller</h3>
-                
-                {/* Power Switch */}
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-600 block">Switch Power Source</label>
-                  <div className="flex gap-2">
-                    {["Grid", "Solar", "Generator"].map((src) => (
-                      <button
-                        key={src}
-                        onClick={() => setPowerSource(src)}
-                        className={`flex-1 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-                          powerSource === src
-                            ? "bg-slate-900 border-slate-900 text-white"
-                            : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
-                        }`}
-                      >
-                        {src}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Fuel Slider */}
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-semibold text-slate-600">
-                    <span>Simulated Fuel level</span>
-                    <span className="font-mono text-slate-900">{fuelPct.toFixed(0)}%</span>
-                  </div>
-                  <input
-                    type="range" min="0" max="100"
-                    value={fuelPct} onChange={(e) => setFuelPct(parseFloat(e.target.value))}
-                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
-                  />
-                </div>
+              <div>
+                <p className="text-2xl font-black text-slate-950 leading-tight">{s.value}</p>
+                <p className="text-[10px] text-slate-500 font-semibold mt-0.5 leading-tight">{s.label}</p>
               </div>
-            </div>
-
-            {/* Right: Live Interactive Card Preview */}
-            <div className="lg:col-span-7 bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm relative overflow-hidden">
-              {/* Card top details */}
-              <div className="flex items-start justify-between pb-5 border-b border-slate-100 mb-6">
-                <div>
-                  <h3 className="text-base font-bold text-slate-950 flex items-center gap-2">
-                    {activeSite === "LSK-001" ? "Lusaka Central" : activeSite === "LSK-002" ? "Kalingalinga Hub" : activeSite === "LSK-003" ? "Kabulonga Heights" : "Chilungululu Relay"}
-                    <span className="text-xs font-semibold font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
-                      {activeSite}
-                    </span>
-                  </h3>
-                  <p className="text-xs text-slate-500 mt-1">Live Telemetry Snapshot</p>
-                </div>
-                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-                  fuelPct < 15 ? "bg-red-50 text-red-700" : powerSource === "Generator" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"
-                }`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${
-                    fuelPct < 15 ? "bg-red-500 animate-pulse" : powerSource === "Generator" ? "bg-amber-500" : "bg-emerald-500 animate-pulse"
-                  }`} />
-                  {fuelPct < 15 ? "Critical Fuel" : powerSource === "Generator" ? "Generator Running" : "Nominal"}
-                </span>
-              </div>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <span className="text-xs text-slate-400 font-semibold uppercase">Power Source</span>
-                  <div className="text-sm font-bold text-slate-800 mt-1 flex items-center gap-1">
-                    {powerSource === "Grid" ? (
-                      <>
-                        <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Grid Power
-                      </>
-                    ) : powerSource === "Solar" ? (
-                      <>
-                        <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-                        </svg>
-                        Solar array
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        Generator
-                      </>
-                    )}
-                  </div>
-                </div>
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <span className="text-xs text-slate-400 font-semibold uppercase">Diesel Level</span>
-                  <p className={`text-sm font-bold mt-1 ${fuelPct < 20 ? "text-red-600 animate-pulse" : "text-slate-800"}`}>
-                    {fuelPct.toFixed(0)}%
-                  </p>
-                </div>
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <span className="text-xs text-slate-400 font-semibold uppercase">Temperature</span>
-                  <p className={`text-sm font-bold mt-1 ${temp > 40 ? "text-red-600" : "text-slate-800"}`}>
-                    {temp}°C
-                  </p>
-                </div>
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <span className="text-xs text-slate-400 font-semibold uppercase">Door Status</span>
-                  <div className="text-sm font-bold text-slate-800 mt-1 flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    Closed
-                  </div>
-                </div>
-              </div>
-
-              {/* Real-time power switching timeline preview */}
-              <div className="mt-6 border-t border-slate-100 pt-6">
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Switchboard Timeline Event</h4>
-                <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    <span className="text-xs font-semibold text-slate-700">Power switched to {powerSource}</span>
-                  </div>
-                  <span className="text-[10px] text-slate-400 font-mono self-start sm:self-auto">Just Now</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Features Section ───────────────────────────────────────────────── */}
-      <section id="features" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-950">Unified Infrastructure Control</h2>
-          <p className="text-slate-500 mt-3 text-sm max-w-xl mx-auto">
-            Engineered to fulfill all operational oversight domains. Get full coverage across telemetry, commercial health, and alerts.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {FEATURES.map((feature) => (
-            <div 
-              key={feature.title} 
-              className="bg-white rounded-2xl border border-slate-200/70 p-6 transition-all hover:border-blue-500/30 hover:shadow-md hover:-translate-y-1 duration-200 group"
-            >
-              <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-xl border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
-                {feature.icon}
-              </div>
-              <h3 className="text-base font-bold text-slate-900 mt-4 mb-2">{feature.title}</h3>
-              <p className="text-xs text-slate-500 leading-relaxed">{feature.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── Architecture Section ────────────────────────────────────────────── */}
-      <section id="architecture" className="bg-slate-900 text-slate-100 py-12 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight text-white">Designed for Production IoT</h2>
-            <p className="text-slate-400 mt-3 text-sm max-w-lg mx-auto">
-              Built on a decoupled model. The simulator feeds time-series telemetry to the controller without visual blocking.
+      {/* ── FEATURE CARDS — uses the actual photos ──────────────────────────── */}
+      <section id="features" className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <span className="text-[10px] font-black text-yellow-800 bg-yellow-500/15 px-3 py-1 rounded-full uppercase tracking-wider">Core Features</span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-950 mt-3">Operational Intelligence, Site by Site</h2>
+          </div>
+          <Link to="/login" className="hidden sm:flex text-xs font-bold text-slate-700 border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-full transition-colors items-center gap-1">
+            VIEW ALL →
+          </Link>
+        </div>
+
+        <div className="space-y-6">
+          {FEATURES.map((f, i) => (
+            <div
+              key={i}
+              className={`${f.accent} rounded-3xl overflow-hidden flex flex-col lg:flex-row ${i % 2 === 1 ? "lg:flex-row-reverse" : ""} min-h-[280px] shadow-md`}
+            >
+              {/* Text Side */}
+              <div className="flex-1 p-8 sm:p-10 flex flex-col justify-between">
+                <div>
+                  <span className={`text-[10px] font-black uppercase tracking-widest ${f.textAccent}`}>{f.tag}</span>
+                  <h3 className="text-xl sm:text-2xl font-black text-white mt-3 mb-3">{f.title}</h3>
+                  <p className="text-sm text-slate-300 leading-relaxed max-w-sm">{f.desc}</p>
+                </div>
+                <Link to="/login" className="mt-6 self-start px-5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-full text-xs font-bold transition-all hover:scale-[1.02]">
+                  See in Console →
+                </Link>
+              </div>
+
+              {/* Photo Side */}
+              <div className="lg:w-[45%] relative overflow-hidden" style={{ minHeight: "220px" }}>
+                <img
+                  src={f.img}
+                  alt={f.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-current/60 to-transparent" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── NOC SWITCHBOARD INTERACTIVE CONSOLE ─────────────────────────────── */}
+      <section id="preview" className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-6 sm:p-8">
+            <div className="text-center max-w-xl mx-auto mb-8">
+              <span className="text-[10px] font-black text-yellow-800 bg-yellow-500/10 px-3 py-1 rounded-full uppercase tracking-wider">Interactive Simulation</span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-950 mt-3">Live Telemetry Switchboard</h2>
+              <p className="text-xs text-slate-500 mt-2 max-w-md mx-auto">
+                Select a Zambian tower site or manually override sensor readings to see how SiteWatch 360 reacts to real operational scenarios.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* LEFT: Controls */}
+              <div className="lg:col-span-5 space-y-4">
+                {/* Site selector */}
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                  <h3 className="text-[10px] font-black text-slate-600 uppercase tracking-widest mb-3">Select Tower Site</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { id: "LSK-001", label: "Lusaka Central",     status: "Online" },
+                      { id: "LSK-002", label: "Kalingalinga Hub",   status: "Degraded" },
+                      { id: "LSK-003", label: "Kabulonga Heights",  status: "Online" },
+                      { id: "LSK-005", label: "Chilungululu Relay", status: "Critical" },
+                    ].map((preset) => (
+                      <button
+                        key={preset.id}
+                        onClick={() => selectSitePreset(preset.id)}
+                        className={`text-left p-3.5 rounded-xl border transition-all ${
+                          activeSite === preset.id
+                            ? "border-[#eab308] bg-yellow-50 ring-1 ring-[#eab308] shadow-sm"
+                            : "border-slate-200 bg-white hover:bg-slate-50"
+                        }`}
+                      >
+                        <p className="text-xs font-black text-slate-800">{preset.id}</p>
+                        <p className="text-[10px] text-slate-500 truncate mt-0.5">{preset.label}</p>
+                        <div className="flex items-center gap-1.5 mt-2">
+                          <span className={`w-1.5 h-1.5 rounded-full ${
+                            preset.status === "Online" ? "bg-emerald-500 animate-pulse" : preset.status === "Critical" ? "bg-red-500 animate-pulse" : "bg-amber-400"
+                          }`} />
+                          <span className={`text-[9px] font-bold ${
+                            preset.status === "Online" ? "text-emerald-600" : preset.status === "Critical" ? "text-red-600" : "text-amber-600"
+                          }`}>{preset.status}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Override controls */}
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-5">
+                  <h3 className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Operator Overrides</h3>
+                  
+                  {/* Power source */}
+                  <div>
+                    <label className="text-xs font-bold text-slate-700 block mb-2">Power Source</label>
+                    <div className="flex gap-2">
+                      {[
+                        { label: "Grid", icon: "⚡" },
+                        { label: "Solar", icon: "☀️" },
+                        { label: "Generator", icon: "⚙️" },
+                      ].map(({ label, icon }) => (
+                        <button
+                          key={label}
+                          onClick={() => setPowerSource(label)}
+                          className={`flex-1 py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                            powerSource === label
+                              ? "bg-slate-950 border-slate-950 text-white shadow-md"
+                              : "bg-white border-slate-200 text-slate-500 hover:bg-slate-50"
+                          }`}
+                        >
+                          <span className="block text-sm">{icon}</span>
+                          <span className="text-[9px]">{label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Fuel slider */}
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <label className="text-xs font-bold text-slate-700">Fuel Level</label>
+                      <span className={`text-xs font-black ${fuelPct < 20 ? "text-red-600" : "text-[#eab308]"}`}>
+                        {fuelPct.toFixed(0)}%
+                      </span>
+                    </div>
+                    <div className="relative">
+                      <div className="h-3 rounded-full bg-slate-200 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${fuelPct < 20 ? "bg-red-500" : fuelPct < 50 ? "bg-amber-400" : "bg-emerald-500"}`}
+                          style={{ width: `${fuelPct}%` }}
+                        />
+                      </div>
+                      <input
+                        type="range" min="0" max="100"
+                        value={fuelPct} onChange={(e) => setFuelPct(parseFloat(e.target.value))}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      />
+                    </div>
+                    {fuelPct < 20 && (
+                      <p className="text-[10px] text-red-600 font-bold mt-1.5 flex items-center gap-1">
+                        ⚠ Critical fuel — generator failover risk
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* RIGHT: Live Data Panel */}
+              <div className="lg:col-span-7">
+                {/* Site image header */}
+                <div className="relative rounded-2xl overflow-hidden h-[160px] mb-4">
+                  <img
+                    src={activeSite === "LSK-003" ? SITE_SOLAR : TOWER_CLOSE}
+                    alt="Site"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 to-transparent flex items-center px-5">
+                    <div>
+                      <h3 className="text-white font-black text-lg leading-tight">{siteNames[activeSite]}</h3>
+                      <span className="font-mono text-[10px] text-[#FFCC00] font-bold">{activeSite}</span>
+                    </div>
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
+                      fuelPct < 15 ? "bg-red-950/90 text-red-300 border border-red-900" : powerSource === "Generator" ? "bg-amber-950/90 text-amber-300 border border-amber-900" : "bg-emerald-950/90 text-emerald-300 border border-emerald-900"
+                    }`}>
+                      <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${fuelPct < 15 ? "bg-red-400" : powerSource === "Generator" ? "bg-amber-400" : "bg-emerald-400"}`} />
+                      {fuelPct < 15 ? "CRITICAL FUEL" : powerSource === "Generator" ? "GENERATOR ACTIVE" : "GRID NOMINAL"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Telemetry grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  {[
+                    {
+                      label: "Power Source",
+                      value: powerSource,
+                      icon: powerSource === "Grid" ? "⚡" : powerSource === "Solar" ? "☀️" : "⚙️",
+                      color: "text-slate-800"
+                    },
+                    {
+                      label: "Diesel Reserve",
+                      value: `${fuelPct.toFixed(0)}%`,
+                      icon: "🛢",
+                      color: fuelPct < 20 ? "text-red-600" : "text-slate-800"
+                    },
+                    {
+                      label: "Temp Reading",
+                      value: `${temp}°C`,
+                      icon: "🌡",
+                      color: temp > 40 ? "text-red-600" : "text-slate-800"
+                    },
+                    {
+                      label: "Security Door",
+                      value: "Locked",
+                      icon: "🔒",
+                      color: "text-emerald-700"
+                    },
+                  ].map((cell, idx) => (
+                    <div key={idx} className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                      <p className="text-lg mb-1">{cell.icon}</p>
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">{cell.label}</p>
+                      <p className={`text-sm font-black mt-1 ${cell.color}`}>{cell.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Event feed */}
+                <div className="mt-4 bg-slate-950 rounded-xl p-4 font-mono text-[10px]">
+                  <p className="text-slate-500 mb-2 font-bold">— LIVE EVENT STREAM —</p>
+                  <div className="space-y-1">
+                    <p className="text-emerald-400">▶  [{new Date().toLocaleTimeString()}] power_source → <span className="text-[#FFCC00]">{powerSource}</span></p>
+                    <p className="text-slate-400">▶  [{new Date().toLocaleTimeString()}] fuel_level → <span className={fuelPct < 20 ? "text-red-400" : "text-slate-200"}>{fuelPct.toFixed(1)}%</span></p>
+                    <p className="text-slate-400">▶  [{new Date().toLocaleTimeString()}] temp_sensor → <span className="text-slate-200">{temp}°C</span></p>
+                    <p className="text-blue-400 animate-pulse">▶  socket.io event broadcasted → all connected clients</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </section>
+
+      {/* ── SOLUTIONS FULL-BLEED CARD ────────────────────────────────────────── */}
+      <section id="solutions" className="mx-4 sm:mx-6 mb-16 rounded-3xl overflow-hidden relative" style={{ minHeight: "380px" }}>
+        <img src={TECH_CLIMB} alt="Engineer on tower" className="absolute inset-0 w-full h-full object-cover object-top" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/70 to-slate-950/90" />
+        <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-12 py-16 text-center">
+          <span className="text-[10px] font-black text-[#FFCC00] uppercase tracking-[0.2em] mb-3 block">Platform Modules</span>
+          <h2 className="text-3xl font-black text-white mb-10">Everything You Need. Nothing You Don't.</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {[
+              { title: "NOC Console", icon: "📡", desc: "Live site telemetry, alarm queues, and SLA dashboards for operators." },
+              { title: "Fuel & Power Analytics", icon: "🔋", desc: "Generator runtimes, solar harvesting metrics, and anomaly detection reports." },
+              { title: "Commercial Tenancy", icon: "🏢", desc: "Site capacity ratios, client equipment loads, and revenue optimization flags." },
+            ].map((card) => (
+              <div key={card.title} className="bg-slate-950/60 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-left hover:border-[#FFCC00]/40 transition-all hover:-translate-y-1 duration-200">
+                <p className="text-2xl mb-3">{card.icon}</p>
+                <h3 className="text-sm font-black text-[#FFCC00] mb-2">{card.title}</h3>
+                <p className="text-xs text-slate-300 leading-relaxed">{card.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ARCHITECTURE SECTION ────────────────────────────────────────────── */}
+      <section id="architecture" className="bg-white border-y border-slate-200 py-16 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-[10px] font-black text-yellow-800 bg-yellow-500/10 px-3 py-1 rounded-full uppercase tracking-wider">Decoupled Architecture</span>
+            <h2 className="text-3xl font-black text-slate-950 mt-3">Built for Production IoT</h2>
+            <p className="text-slate-500 mt-2 text-sm max-w-md mx-auto">
+              The simulator pushes time-series telemetry over HTTP. The backend evaluates rules, stores history, and broadcasts over WebSocket — no polling, no delay.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
             {[
-              {
-                step: "01",
-                title: "Sensors Submit Payload",
-                desc: "Simulated time-series readings or physical gateway devices POST data via clean JSON payloads.",
-              },
-              {
-                step: "02",
-                title: "Backend Evaluates Rules",
-                desc: "Node server ingests readings, updates PostgreSQL tables, evaluates safety thresholds, and triggers notifications.",
-              },
-              {
-                step: "03",
-                title: "Real-time Live Pushes",
-                desc: "React dashboard displays live Recharts logs immediately upon receiving Socket.io broadcasts.",
-              },
-            ].map((step) => (
-              <div key={step.step} className="bg-slate-800/40 backdrop-blur border border-slate-800 rounded-2xl p-6.5 relative">
-                <span className="text-4xl font-extrabold text-blue-500/20 absolute -top-5 left-1/2 -translate-x-1/2 bg-slate-900 px-4">
-                  {step.step}
-                </span>
-                <h3 className="text-base font-bold text-white mt-4 mb-2">{step.title}</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">{step.desc}</p>
+              { step: "01", title: "Sensors POST Readings", desc: "Physical IoT gateways or simulated scripts submit JSON telemetry to `/api/readings/submit`." },
+              { step: "02", title: "Backend Evaluates Rules", desc: "Node server updates Supabase tables, checks thresholds, and generates typed alert records." },
+              { step: "03", title: "Dashboard Reacts Live", desc: "Socket.io pushes events to all connected React clients with zero-polling real-time updates." },
+            ].map((s) => (
+              <div key={s.step} className="relative bg-slate-50 rounded-2xl border border-slate-200 p-6 shadow-sm">
+                <span className="text-6xl font-black text-slate-100 absolute -top-4 right-4 select-none">{s.step}</span>
+                <h3 className="text-base font-black text-slate-950 mb-2 relative z-10">{s.title}</h3>
+                <p className="text-xs text-slate-500 leading-relaxed relative z-10">{s.desc}</p>
               </div>
             ))}
           </div>
 
-          {/* Simple Code block to showcase api request */}
-          <div className="mt-16 bg-slate-950 rounded-2xl border border-slate-800/80 p-5 font-mono text-[11px] text-slate-300 max-w-2xl mx-auto shadow-xl">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-3 text-slate-500">
-              <span>Telemetry Submission Payload (JSON)</span>
-              <span>POST /api/readings/submit</span>
+          {/* Code snippet */}
+          <div className="bg-slate-900 rounded-2xl p-5 font-mono text-[11px] text-slate-200 max-w-2xl mx-auto border border-slate-800 shadow-xl">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <span className="text-slate-500">POST /api/readings/submit</span>
+              <div className="flex gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-red-500/60" />
+                <div className="w-2 h-2 rounded-full bg-amber-400/60" />
+                <div className="w-2 h-2 rounded-full bg-emerald-500/60" />
+              </div>
             </div>
-            <pre className="overflow-x-auto text-left">
+            <pre className="overflow-x-auto">
 {`{
-  "siteId": "LSK-001",
+  "siteId":   "LSK-001",
   "category": "power",
-  "metric": "power_source",
-  "value": 1,
-  "unit": "enum",
-  "timestamp": "${new Date().toISOString()}"
+  "metric":   "power_source",
+  "value":    1,
+  "unit":     "enum",
+  "ts":       "${new Date().toISOString()}"
 }`}
             </pre>
           </div>
         </div>
       </section>
 
-      {/* ── FAQ Section ────────────────────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-24">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-slate-950">Frequently Asked Questions</h2>
+      {/* ── FAQ ─────────────────────────────────────────────────────────────── */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+        <div className="text-center mb-12">
+          <span className="text-[10px] font-black text-yellow-800 bg-yellow-500/10 px-3 py-1 rounded-full uppercase tracking-wider">FAQ</span>
+          <h2 className="text-3xl font-black text-slate-950 mt-3">Common Questions</h2>
         </div>
-
-        <div className="space-y-4">
+        <div className="space-y-3">
           {[
-            {
-              q: "Can I connect real physical IoT hardware to SiteWatch 360?",
-              a: "Yes. The backend exposes a simple HTTP POST endpoint (`/api/readings/submit`). To deploy physical IoT gateways, simply configure them to POST standard JSON telemetry to the API. No backend or frontend code changes required.",
-            },
-            {
-              q: "How does the fuel theft anomaly logic function?",
-              a: "It tracks rate-of-change. If the diesel level falls faster than the expected burn rate of the generator over a short window (natural depletion), it flags a `theft_anomaly` event, triggering high-severity operator alarms.",
-            },
-            {
-              q: "Is multi-role support available in the dashboard?",
-              a: "Yes. Role-based layout permissions distinguish between Administrators (who can trigger scenarios and inject overrides) and Operators (who manage alarms and view SLA analytics).",
-            },
+            { q: "Can real physical IoT hardware connect to SiteWatch 360?", a: "Yes. Any MQTT-capable or HTTP gateway device can POST telemetry to `/api/readings/submit`. No code changes needed — just configure the endpoint and authentication token." },
+            { q: "How does the fuel theft detection work?", a: "It tracks the rate-of-change of diesel levels. If the level drops faster than the generator's rated burn rate, a `fuel_theft_anomaly` alert fires with severity CRITICAL." },
+            { q: "Is there multi-role support in the dashboard?", a: "Yes. Administrators have full override access and scenario injection. Operators can manage alarms and view all analytics, but cannot inject readings." },
+            { q: "Is the platform deployable in low-bandwidth environments?", a: "The WebSocket events are ultra-lightweight JSON payloads under 512 bytes each. The React frontend is Vite-bundled with minimal dependencies, suitable for field laptop access on 3G." },
           ].map((faq, idx) => (
-            <div key={idx} className="bg-white rounded-xl border border-slate-200/80 overflow-hidden shadow-sm">
+            <div key={idx} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
               <button
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                className="w-full px-5 py-4 text-left font-bold text-xs md:text-sm text-slate-900 flex justify-between items-center"
+                className="w-full px-5 py-4 text-left font-bold text-sm text-slate-900 flex justify-between items-center hover:bg-slate-50 transition-colors gap-4"
               >
                 <span>{faq.q}</span>
-                <span className="text-slate-400">{activeFaq === idx ? "−" : "+"}</span>
+                <span className={`text-[#eab308] text-lg font-black transition-transform duration-200 flex-shrink-0 ${activeFaq === idx ? "rotate-45" : ""}`}>+</span>
               </button>
               {activeFaq === idx && (
-                <div className="px-5 pb-4 text-xs text-slate-500 leading-relaxed border-t border-slate-100 pt-3">
+                <div className="px-5 pb-5 pt-1 text-sm text-slate-500 leading-relaxed border-t border-slate-100 bg-slate-50/60">
                   {faq.a}
                 </div>
               )}
@@ -460,41 +510,68 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ── CTA Banner ─────────────────────────────────────────────────────── */}
-      <section className="bg-blue-600 text-white py-12 sm:py-20 px-4 sm:px-6 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight">Ready to explore SiteWatch 360?</h2>
-          <p className="text-blue-100 mt-3 text-sm max-w-lg mx-auto">
-            Log in to access the control panel, manage alarms, view SLA targets, and inspect telemetry values.
+      {/* ── CTA BANNER ──────────────────────────────────────────────────────── */}
+      <section className="mx-4 sm:mx-6 mb-10 rounded-3xl overflow-hidden relative">
+        <img src={SITE_SOLAR} alt="Tower site" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-[#FFCC00]/90" />
+        <div className="relative z-10 text-center py-16 px-6">
+          <h2 className="text-3xl font-black text-slate-950 tracking-tight">Ready to take control of your tower estate?</h2>
+          <p className="text-slate-800 mt-3 text-sm max-w-md mx-auto font-medium">
+            Log in to explore every SiteWatch 360 module. Quick-fill credentials for Admin and Operator roles are on the sign-in screen.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              to="/login"
-              className="w-full sm:w-auto px-7 py-3.5 bg-white text-blue-600 rounded-xl font-bold text-sm hover:bg-slate-50 transition-all text-center shadow-sm"
-            >
-              Sign In to Demo Workspace
-            </Link>
-          </div>
-          <p className="text-[10px] text-blue-200/80 mt-4">
-            Quick-fill credentials for Administrator & Operator roles are available on the sign-in screen.
-          </p>
+          <Link to="/login" className="mt-8 inline-block px-10 py-4 bg-slate-950 text-white hover:bg-slate-900 rounded-full font-black text-sm transition-all shadow-xl hover:scale-[1.02]">
+            Sign In to Demo Workspace →
+          </Link>
         </div>
       </section>
 
-      {/* ── Footer ─────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-slate-200/60 bg-white py-8 sm:py-12 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-white text-xs font-bold shadow-sm shadow-blue-500/20">
-              S
+      {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
+      <footer className="bg-[#1C1C1C] py-10 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start justify-between gap-8">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="bg-slate-800 text-[#FFCC00] rounded-lg px-2.5 py-1 font-extrabold text-[11px] leading-none select-none">
+                SW360
+              </div>
+              <span className="text-white font-black text-sm">SiteWatch 360</span>
             </div>
-            <span className="text-sm font-bold text-slate-900">SiteWatch 360</span>
+            <p className="text-slate-400 text-xs max-w-[200px] leading-relaxed">
+              Unified tower intelligence for telecom co-location operators across Zambia.
+            </p>
           </div>
-          <p className="text-xs text-slate-400">
-            © 2026 SiteWatch 360. All rights reserved. Built using React, Node.js, and Supabase.
-          </p>
+
+          {/* Links */}
+          <div className="grid grid-cols-2 gap-8 text-xs text-slate-400 font-bold">
+            <div className="space-y-2">
+              <p className="text-[#FFCC00] uppercase tracking-widest text-[10px] mb-3">Platform</p>
+              <p className="hover:text-white transition-colors cursor-pointer">NOC Console</p>
+              <p className="hover:text-white transition-colors cursor-pointer">Power Monitoring</p>
+              <p className="hover:text-white transition-colors cursor-pointer">Security & Alarms</p>
+              <p className="hover:text-white transition-colors cursor-pointer">Fuel Assurance</p>
+            </div>
+            <div className="space-y-2">
+              <p className="text-[#FFCC00] uppercase tracking-widest text-[10px] mb-3">Connect</p>
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="block hover:text-white transition-colors">FACEBOOK</a>
+              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="block hover:text-white transition-colors">LINKEDIN</a>
+              <p className="hover:text-white transition-colors cursor-pointer">CONTACT US</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Legal</p>
+          <p className="text-[10px] text-slate-500">© 2026 SITEWATCH 360. ALL RIGHTS RESERVED.</p>
         </div>
       </footer>
+
+      {/* Ticker animation */}
+      <style>{`
+        @keyframes ticker {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-33.33%); }
+        }
+      `}</style>
     </div>
   );
 }
