@@ -175,11 +175,11 @@ export default function Landing() {
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-8 max-w-lg font-medium">
               SiteWatch 360 unifies real-time power, fuel, security, and environmental telemetry into a single zero-polling workspace built for telecom operators. Secure unmanned tower sites, prevent generator fuel theft in real-time, and guarantee a 99.98% co-location uptime SLA.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/login" className="px-7 py-3 bg-[#FFCC00] hover:bg-[#FFD200] text-slate-950 rounded-full font-black text-xs transition-all shadow-md shadow-yellow-500/20 hover:scale-[1.02]">
+            <div className="flex flex-row items-center gap-2 sm:gap-3">
+              <Link to="/login" className="px-4 py-2.5 sm:px-7 sm:py-3 bg-[#FFCC00] hover:bg-[#FFD200] text-slate-950 rounded-full font-black text-[10px] sm:text-xs transition-all shadow-md shadow-yellow-500/20 hover:scale-[1.02] whitespace-nowrap">
                 EXPLORE CONSOLE
               </Link>
-              <a href="#integrations" className="px-7 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full font-bold text-xs transition-all">
+              <a href="#integrations" className="px-4 py-2.5 sm:px-7 sm:py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white rounded-full font-bold text-[10px] sm:text-xs transition-all whitespace-nowrap">
                 VIEW INTEGRATIONS
               </a>
             </div>
