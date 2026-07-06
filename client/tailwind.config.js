@@ -18,7 +18,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["MTN Brighter Sans Medium", "MTN Brighter Sans", "Inter", "system-ui", "sans-serif"],
       },
     },
   },
