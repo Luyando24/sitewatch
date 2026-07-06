@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 // Real local photos
-const HERO_BG = "/photos/unnamed.jpg";           // sunset silhouette tower
+const HERO_BG = "/photos/sunset_tower_hd.png";           // sunset silhouette tower
 const TOWER_CLOSE = "/photos/5G-Tower-Stock-Image.jpg"; // 5G tower close-up
 const SITE_SOLAR = "/photos/6Obm8C2.jpeg";       // Zambia site with solar panel
 const TECH_CLIMB = "/photos/Unmatched-Internet-Connectivity-Quality-768x512.webp"; // engineer on tower
